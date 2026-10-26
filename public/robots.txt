@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+Disallow: /hoy
+Disallow: /sesion
+Disallow: /resultado
+Disallow: /progreso
+Disallow: /biblioteca
+Disallow: /practica/
+Disallow: /retos
+Disallow: /enfoque
+Disallow: /lecciones
+Disallow: /ajustes
+Disallow: /cuenta
+Disallow: /checkout
+Disallow: /empezar
+Disallow: /onboarding
+Disallow: /paywall

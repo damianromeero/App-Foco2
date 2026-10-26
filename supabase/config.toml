@@ -1,0 +1,44 @@
+# Configuración local y de despliegue de Supabase para Foco 5.
+# Las claves y los secretos NUNCA van aquí: se definen en el panel o con `supabase secrets set`.
+
+[project]
+id = "foco5"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+
+[db]
+port = 54322
+major_version = 17
+
+[auth]
+enabled = true
+site_url = "http://localhost:5173"
+additional_redirect_urls = [
+  "http://localhost:5173/entrar/confirmar",
+  "http://localhost:4173/entrar/confirmar",
+  "http://localhost:5173/admin/confirmar",
+  "http://localhost:4173/admin/confirmar",
+]
+# Enlace mágico por correo: sin contraseñas. El registro público está apagado: las cuentas de compra
+# las crea la función de Hotmart y las cuentas de administración las crea la persona en el panel de Supabase.
+enable_signup = false
+enable_anonymous_sign_ins = false
+
+[auth.email]
+enable_signup = false
+double_confirm_changes = true
+
+# El webhook de Stripe llega sin sesión: su seguridad es la firma del evento.
+[functions.stripe-webhook]
+verify_jwt = false
+
+# El aviso de Hotmart llega sin sesión: su seguridad es el token HOTMART_HOTTOK, comprobado en la función.
+[functions.hotmart-aviso]
+verify_jwt = false
+
+# La medición anónima llega sin sesión: la protege la función de la base (registrar_evento_app) y sus límites.
+[functions.eventos]
+verify_jwt = false

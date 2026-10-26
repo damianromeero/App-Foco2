@@ -1,0 +1,27 @@
+# Dependencias y builds
+node_modules
+dist
+dist-ssr
+coverage
+*.local
+
+# Entorno: nunca subir secretos
+.env
+.env.*
+!.env.example
+supabase/.branches
+supabase/.temp
+
+# Pruebas
+playwright-report
+test-results
+blob-report
+
+# Editores y sistema
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*

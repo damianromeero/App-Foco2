@@ -1,0 +1,647 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+ * Dirección visual: negro, blanco y un brillo mínimo.
+ * Fondo negro, texto blanco y superficies casi negras con un borde de luz.
+ * Los degradados son muy suaves y solo marcan lo importante: botones principales,
+ * progreso y las palabras clave de los titulares, escritas en Pixelify Sans.
+ * El resto del texto usa Geist. Los nombres de los tokens son estables.
+ * ------------------------------------------------------------------ */
+
+@theme {
+  --font-sans:
+    'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-pixel: 'Pixelify Sans', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --color-canvas: var(--c-canvas);
+  --color-surface: var(--c-surface);
+  --color-surface-2: var(--c-surface-2);
+  --color-glass: var(--c-glass);
+  --color-ink: var(--c-ink);
+  --color-ink-soft: var(--c-ink-soft);
+  --color-line: var(--c-line);
+  --color-line-strong: var(--c-line-strong);
+  --color-brand: var(--c-brand);
+  --color-brand-ink: var(--c-brand-ink);
+  --color-brand-soft: var(--c-brand-soft);
+  --color-accent: var(--c-accent);
+  --color-accent-text: var(--c-accent-text);
+  --color-premium: var(--c-premium);
+  --color-premium-ink: var(--c-premium-ink);
+  --color-danger: var(--c-danger);
+  --color-danger-text: var(--c-danger-text);
+  --color-focus: var(--c-focus);
+
+  --radius-card: 1.75rem;
+  --radius-sheet: 2.25rem;
+  --radius-dock: 2rem;
+
+  --shadow-soft: var(--sh-soft);
+  --shadow-lift: var(--sh-lift);
+  --shadow-glow: var(--sh-glow);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --animate-sheet: sheet-up 250ms var(--ease-out-expo);
+  --animate-fade-up: fade-up 250ms var(--ease-out-expo) both;
+  --animate-drift: drift 26s ease-in-out infinite alternate;
+  --animate-drift-slow: drift 36s ease-in-out infinite alternate-reverse;
+  --animate-pulse-soft: pulse-soft 3.2s ease-in-out infinite;
+  /* Ciclo de respiración de 10 s: 4 s inhalando (40 %) y 6 s exhalando. */
+  --animate-breathe: breathe 10s ease-in-out infinite;
+  --animate-halo: halo 10s ease-in-out infinite;
+  /* Firma de la portada: el dispositivo flota 8 px en 7 s y el punto de foco respira en el mismo ciclo. */
+  --animate-flota-lenta: flota-lenta 7s ease-in-out infinite;
+  --animate-pulso-foco: pulso-foco 7s ease-in-out infinite;
+}
+
+@keyframes flota-lenta {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+@keyframes pulso-foco {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(0.72);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+@keyframes halo {
+  0%,
+  100% {
+    transform: scale(0.88);
+    opacity: 0.25;
+  }
+  40% {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+}
+
+@keyframes sheet-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(4%, 3%, 0) scale(1.08);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes sheen {
+  from {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(220%) skewX(-18deg);
+  }
+}
+
+/* Base oscura por defecto: negro puro, texto blanco y luz casi imperceptible. */
+:root {
+  --c-canvas: #000000;
+  --c-surface: #0a0a0a;
+  --c-surface-2: #141414;
+  --c-glass: rgb(255 255 255 / 0.035);
+  --c-glass-strong: rgb(255 255 255 / 0.06);
+  --c-ink: #ffffff;
+  --c-ink-soft: #a1a1aa;
+  --c-line: rgb(255 255 255 / 0.09);
+  --c-line-strong: rgb(255 255 255 / 0.16);
+  --c-ring-a: rgb(255 255 255 / 0.2);
+  --c-ring-b: rgb(255 255 255 / 0.02);
+  --c-highlight: rgb(255 255 255 / 0.08);
+
+  --c-brand: #ffffff;
+  --c-brand-strong: #e4e4e7;
+  --c-brand-ink: #000000;
+  --c-brand-soft: rgb(255 255 255 / 0.08);
+  --c-fill-a: #ffffff;
+  --c-fill-b: #d4d4d8;
+  --c-accent: #fcd9a0;
+  --c-accent-text: #fcd9a0;
+  --c-premium: #ecd28a;
+  --c-premium-ink: #120c02;
+  --c-danger: #f87171;
+  --c-danger-text: #fca5a5;
+  --c-focus: #ffffff;
+
+  /* Resaltado mínimo: tres tonos muy pálidos que solo aparecen en palabras clave y progreso. */
+  --c-aurora-a: #bbf7d0;
+  --c-aurora-b: #a5f3fc;
+  --c-aurora-c: #ddd6fe;
+
+  --c-glow-1: rgb(187 247 208 / 0.05);
+  --c-glow-2: rgb(165 243 252 / 0.035);
+  --c-glow-3: rgb(221 214 254 / 0.035);
+
+  --sh-soft: 0 1px 0 rgb(255 255 255 / 0.05) inset, 0 20px 40px -28px rgb(0 0 0 / 0.9);
+  --sh-lift: 0 40px 80px -40px rgb(0 0 0 / 0.95);
+  --sh-glow: 0 10px 34px -12px rgb(255 255 255 / 0.22);
+
+  --c-stroop-rojo: #fb7185;
+  --c-stroop-azul: #60a5fa;
+  --c-stroop-verde: #4ade80;
+  --c-stroop-amarillo: #facc15;
+  color-scheme: dark;
+}
+
+/* Degradados y dorado comunes a ambos temas: se definen fuera de los bloques de color. */
+:root {
+  --c-gold-a: #f3e2a4;
+  --c-gold-b: #c99a3f;
+  --c-gold-c: #8a5d1c;
+  --grad-fill: linear-gradient(135deg, var(--c-fill-a) 0%, var(--c-fill-b) 100%);
+  --grad-aurora: linear-gradient(
+    120deg,
+    var(--c-aurora-a),
+    var(--c-aurora-b) 50%,
+    var(--c-aurora-c)
+  );
+  --grad-gold: linear-gradient(
+    135deg,
+    var(--c-gold-a) 0%,
+    var(--c-gold-b) 55%,
+    var(--c-gold-c) 100%
+  );
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='oscuro']) {
+    --c-canvas: #f2f5f3;
+    --c-surface: #ffffff;
+    --c-surface-2: #e8eeea;
+    --c-glass: rgb(255 255 255 / 0.62);
+    --c-glass-strong: rgb(255 255 255 / 0.86);
+    --c-ink: #0a1412;
+    --c-ink-soft: #4d5c56;
+    --c-line: rgb(10 20 18 / 0.09);
+    --c-line-strong: rgb(10 20 18 / 0.16);
+    --c-ring-a: rgb(255 255 255 / 1);
+    --c-ring-b: rgb(10 20 18 / 0.05);
+    --c-highlight: rgb(255 255 255 / 0.9);
+
+    --c-brand: #047857;
+    --c-brand-strong: #065f46;
+    --c-brand-ink: #ffffff;
+    --c-brand-soft: rgb(4 120 87 / 0.1);
+    --c-fill-a: #047857;
+    --c-fill-b: #0e7490;
+    --c-accent: #c2410c;
+    --c-accent-text: #9a3412;
+    --c-premium: #854d0e;
+    --c-premium-ink: #2a1a04;
+    --c-danger: #be123c;
+    --c-danger-text: #9f1239;
+    --c-focus: #0369a1;
+
+    --c-aurora-a: #059669;
+    --c-aurora-b: #0891b2;
+    --c-aurora-c: #7c3aed;
+
+    --c-glow-1: rgb(16 185 129 / 0.2);
+    --c-glow-2: rgb(6 182 212 / 0.16);
+    --c-glow-3: rgb(139 92 246 / 0.12);
+
+    --sh-soft: 0 1px 0 rgb(255 255 255 / 0.9) inset, 0 12px 32px -20px rgb(10 20 18 / 0.25);
+    --sh-lift: 0 40px 80px -40px rgb(10 20 18 / 0.35);
+    --sh-glow: 0 14px 40px -14px rgb(5 150 105 / 0.55);
+
+    --c-stroop-rojo: #be123c;
+    --c-stroop-azul: #1d4ed8;
+    --c-stroop-verde: #15803d;
+    --c-stroop-amarillo: #a16207;
+    color-scheme: light;
+  }
+}
+
+:root[data-theme='claro'] {
+  --c-canvas: #f2f5f3;
+  --c-surface: #ffffff;
+  --c-surface-2: #e8eeea;
+  --c-glass: rgb(255 255 255 / 0.62);
+  --c-glass-strong: rgb(255 255 255 / 0.86);
+  --c-ink: #0a1412;
+  --c-ink-soft: #4d5c56;
+  --c-line: rgb(10 20 18 / 0.09);
+  --c-line-strong: rgb(10 20 18 / 0.16);
+  --c-ring-a: rgb(255 255 255 / 1);
+  --c-ring-b: rgb(10 20 18 / 0.05);
+  --c-highlight: rgb(255 255 255 / 0.9);
+
+  --c-brand: #047857;
+  --c-brand-strong: #065f46;
+  --c-brand-ink: #ffffff;
+  --c-brand-soft: rgb(4 120 87 / 0.1);
+  --c-fill-a: #047857;
+  --c-fill-b: #0e7490;
+  --c-accent: #c2410c;
+  --c-accent-text: #9a3412;
+  --c-premium: #854d0e;
+  --c-premium-ink: #2a1a04;
+  --c-danger: #be123c;
+  --c-danger-text: #9f1239;
+  --c-focus: #0369a1;
+
+  --c-aurora-a: #059669;
+  --c-aurora-b: #0891b2;
+  --c-aurora-c: #7c3aed;
+
+  --c-glow-1: rgb(16 185 129 / 0.2);
+  --c-glow-2: rgb(6 182 212 / 0.16);
+  --c-glow-3: rgb(139 92 246 / 0.12);
+
+  --sh-soft: 0 1px 0 rgb(255 255 255 / 0.9) inset, 0 12px 32px -20px rgb(10 20 18 / 0.25);
+  --sh-lift: 0 40px 80px -40px rgb(10 20 18 / 0.35);
+  --sh-glow: 0 14px 40px -14px rgb(5 150 105 / 0.55);
+
+  --c-stroop-rojo: #be123c;
+  --c-stroop-azul: #1d4ed8;
+  --c-stroop-verde: #15803d;
+  --c-stroop-amarillo: #a16207;
+  color-scheme: light;
+}
+
+:root[data-theme='oscuro'] {
+  --c-canvas: #000000;
+  --c-surface: #0a0a0a;
+  --c-surface-2: #141414;
+  --c-glass: rgb(255 255 255 / 0.035);
+  --c-glass-strong: rgb(255 255 255 / 0.06);
+  --c-ink: #ffffff;
+  --c-ink-soft: #a1a1aa;
+  --c-line: rgb(255 255 255 / 0.09);
+  --c-line-strong: rgb(255 255 255 / 0.16);
+  --c-ring-a: rgb(255 255 255 / 0.2);
+  --c-ring-b: rgb(255 255 255 / 0.02);
+  --c-highlight: rgb(255 255 255 / 0.08);
+
+  --c-brand: #ffffff;
+  --c-brand-strong: #e4e4e7;
+  --c-brand-ink: #000000;
+  --c-brand-soft: rgb(255 255 255 / 0.08);
+  --c-fill-a: #ffffff;
+  --c-fill-b: #d4d4d8;
+  --c-accent: #fcd9a0;
+  --c-accent-text: #fcd9a0;
+  --c-premium: #ecd28a;
+  --c-premium-ink: #120c02;
+  --c-danger: #f87171;
+  --c-danger-text: #fca5a5;
+  --c-focus: #ffffff;
+
+  --c-aurora-a: #bbf7d0;
+  --c-aurora-b: #a5f3fc;
+  --c-aurora-c: #ddd6fe;
+
+  --c-glow-1: rgb(187 247 208 / 0.05);
+  --c-glow-2: rgb(165 243 252 / 0.035);
+  --c-glow-3: rgb(221 214 254 / 0.035);
+
+  --sh-soft: 0 1px 0 rgb(255 255 255 / 0.05) inset, 0 20px 40px -28px rgb(0 0 0 / 0.9);
+  --sh-lift: 0 40px 80px -40px rgb(0 0 0 / 0.95);
+  --sh-glow: 0 10px 34px -12px rgb(255 255 255 / 0.22);
+
+  --c-stroop-rojo: #fb7185;
+  --c-stroop-azul: #60a5fa;
+  --c-stroop-verde: #4ade80;
+  --c-stroop-amarillo: #facc15;
+  color-scheme: dark;
+}
+
+/* ------------------------------------------------------------------
+ * Utilidades de estilo
+ * ------------------------------------------------------------------ */
+
+/** Etiqueta pequeña en mayúsculas, en Geist. */
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  line-height: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+}
+
+/** Cifras protagonistas: pesadas, apretadas y tabulares. */
+@utility figure {
+  font-weight: 650;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+
+/** Palabra clave de un titular, en Pixelify Sans con un degradado muy suave. */
+@utility pixel-accent {
+  font-family: var(--font-pixel);
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  background-image: var(--grad-aurora);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-bottom: 0.06em;
+}
+
+/** Texto con el degradado de marca. Solo para cifras y titulares grandes. */
+@utility text-aurora {
+  background-image: var(--grad-aurora);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-bottom: 0.08em;
+}
+
+@utility fill-brand {
+  background-image: var(--grad-fill);
+}
+
+@utility fill-aurora {
+  background-image: var(--grad-aurora);
+}
+
+@utility fill-gold {
+  background-image: var(--grad-gold);
+}
+
+/* Iconos con degradado: el SVG de degradados vive en GradientDefs (Atmosphere.tsx). */
+@utility icon-aurora {
+  & :is(path, rect, circle, line, polyline, polygon, ellipse) {
+    fill: url(#grad-aurora-icon);
+  }
+}
+
+@utility icon-gold {
+  & :is(path, rect, circle, line, polyline, polygon, ellipse) {
+    fill: url(#grad-gold-icon);
+  }
+}
+
+/** Borde de 1 px con brillo en degradado. Pensado para superficies de cristal. */
+@utility ring-gradient {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(155deg, var(--c-ring-a), var(--c-ring-b) 48%, var(--c-ring-a));
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+    pointer-events: none;
+  }
+}
+
+/** Superficie de cristal: fondo translúcido, desenfoque y brillo superior. */
+@utility glass {
+  background: var(--c-glass);
+  backdrop-filter: blur(24px) saturate(170%);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  box-shadow:
+    inset 0 1px 0 var(--c-highlight),
+    var(--shadow-soft);
+}
+
+/** Barra flotante: casi opaca para que el contenido de debajo no se lea a través. */
+@utility glass-dock {
+  background: color-mix(in oklab, var(--c-surface) 94%, transparent);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 var(--c-highlight),
+    var(--shadow-lift);
+}
+
+/** Reflejo que cruza un botón al pasar el ratón (solo con puntero fino). */
+@utility sheen {
+  position: relative;
+  overflow: hidden;
+  @media (hover: hover) {
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        100deg,
+        transparent 30%,
+        rgb(255 255 255 / 0.35) 50%,
+        transparent 70%
+      );
+      transform: translateX(-120%) skewX(-18deg);
+      pointer-events: none;
+    }
+    &:hover::after {
+      animation: sheen 900ms var(--ease-out-expo);
+    }
+  }
+}
+
+/** Pulsación: escala con muelle suave. */
+@utility pressable {
+  transition:
+    transform 200ms var(--ease-out-expo),
+    background-color 200ms ease,
+    box-shadow 200ms ease,
+    opacity 200ms ease;
+  -webkit-tap-highlight-color: transparent;
+  &:active {
+    transform: scale(0.965);
+  }
+}
+
+@utility scroll-x-snap {
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Base
+ * ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Texto grande: escala todo el rem, así se respetan los tamaños de Tailwind. */
+  html[data-text='grande'] {
+    font-size: 112.5%;
+  }
+
+  body {
+    background: var(--c-canvas);
+    color: var(--c-ink);
+    font-family: var(--font-sans);
+    font-optical-sizing: auto;
+    line-height: 1.5;
+    letter-spacing: -0.006em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior-y: none;
+  }
+
+  /* Los campos de texto no deben provocar zoom en iOS: el mínimo es 16 px. */
+  input,
+  select,
+  textarea {
+    font-size: max(1rem, 16px);
+  }
+
+  button,
+  a,
+  [role='button'],
+  [role='tab'],
+  label {
+    touch-action: manipulation;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 3px;
+    border-radius: 0.75rem;
+  }
+
+  ::selection {
+    background: var(--c-brand-soft);
+    color: var(--c-ink);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 650;
+    text-wrap: balance;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+  }
+
+  p,
+  li,
+  dd,
+  dt,
+  summary,
+  figcaption,
+  label,
+  a {
+    text-wrap: pretty;
+  }
+
+  /* Botones y enlaces de acción: si ocupan dos líneas, que queden equilibradas, sin una palabra suelta. */
+  button,
+  [role='button'] {
+    text-wrap: balance;
+  }
+}
+
+/* Movimiento reducido: desde el ajuste de la app o desde el sistema operativo. */
+html[data-motion='si'] *,
+html[data-motion='si'] *::before,
+html[data-motion='si'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-motion='sistema'] *,
+  html[data-motion='sistema'] *::before,
+  html[data-motion='sistema'] *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Transiciones entre pantallas (View Transitions API). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+  animation-timing-function: var(--ease-out-expo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+html[data-motion='si'] ::view-transition-old(root),
+html[data-motion='si'] ::view-transition-new(root) {
+  animation: none;
+}
