@@ -97,7 +97,7 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
       {
         heading: '1. El servicio',
         paragraphs: [
-          'Foco Mente es una aplicación de entrenamiento de la atención con juegos breves. No es un servicio sanitario ni sustituye a ningún tratamiento.',
+          `${plantilla.nombre} es una aplicación de entrenamiento de la atención con juegos breves. No es un servicio sanitario ni sustituye a ningún tratamiento.`,
         ],
       },
       {
@@ -158,12 +158,12 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
   {
     slug: 'aviso-salud',
     title: 'Aviso sobre salud',
-    description: 'Qué no es Foco Mente y cuándo consultar a un profesional.',
+    description: `Qué no es ${plantilla.nombre} y cuándo consultar a un profesional.`,
     sections: [
       {
         heading: 'No es un dispositivo médico',
         paragraphs: [
-          'Foco Mente no diagnostica, trata ni previene ninguna enfermedad ni trastorno, incluido el TDAH, el deterioro cognitivo o la demencia.',
+          `${plantilla.nombre} no diagnostica, trata ni previene ninguna enfermedad ni trastorno, incluido el TDAH, el deterioro cognitivo o la demencia.`,
           'Una aplicación en el móvil no estimula el cerebro. Los juegos entrenan tareas de atención dentro de la aplicación.',
         ],
       },
@@ -196,7 +196,7 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
       {
         heading: 'Derecho legal de desistimiento',
         paragraphs: [
-          '[VERIFICAR: si tu venta incluye además el plazo legal de desistimiento de 14 días para contratos a distancia, y cómo encaja con Garantía de 7 días. Confírmalo con tu abogado.]',
+          `[VERIFICAR: si tu venta incluye además el plazo legal de desistimiento de 14 días para contratos a distancia, y cómo encaja con ${GARANTIA}. Confírmalo con tu abogado.]`,
         ],
       },
     ],

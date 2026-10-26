@@ -99,7 +99,7 @@ No se pudo confirmar contra la documentación oficial de Hotmart al escribir la 
 - [VERIFICAR: si durante la prueba gratuita Hotmart envía la compra aprobada al empezar la prueba o solo al primer cobro] porque el acceso nace con la compra aprobada.
 - [VERIFICAR: qué ocurre en Hotmart cuando alguien reactiva una suscripción cancelada, y qué código de suscriptor recibe] porque la cancelación es definitiva en la plantilla.
 - [VERIFICAR: que el aviso de tus ofertas llega en dólares (USD)] porque cualquier otra divisa queda como `divisa-no-usd`.
-- [VERIFICAR: que Hotmart ofrece prueba gratuita y garantía de 7 días en tu producto, y si una misma página de compra puede ofrecer los dos planes] en tu cuenta de Hotmart.
+- [VERIFICAR: que Hotmart ofrece prueba gratuita y garantía de 15 días en tu producto, y si una misma página de compra puede ofrecer los dos planes] en tu cuenta de Hotmart.
 - [VERIFICAR: códigos de error de Supabase para «registro no permitido»] en `CODIGOS_SIN_REGISTRO`, `src/services/acceso.ts`. Se confirman con una respuesta real.
 
 ## 3 · Hosting y variables
@@ -179,7 +179,7 @@ Añadir el píxel carga un script de otra empresa: la política de contenido de 
 - **Contracargos y expiraciones.** No cambian el acceso: quedan como `no-procesado`.
 - **Cancelación de suscripción.** Quita el acceso en cuanto llega el aviso, no al terminar el periodo pagado.
 - **Código de Stripe.** Decide si lo retiras (ver arriba).
-- **Plazo legal de desistimiento.** Confirma con tu abogado cómo se combina con la Garantía de 7 días (ver `src/content/legal.ts` y [LEGAL.md](LEGAL.md)).
+- **Plazo legal de desistimiento.** Confirma con tu abogado cómo se combina con la Garantía de 15 días (ver `src/content/legal.ts` y [LEGAL.md](LEGAL.md)).
 
 ## Antes de publicar
 
@@ -188,7 +188,7 @@ Añadir el píxel carga un script de otra empresa: la política de contenido de 
 - [ ] `OFERTAS_HOTMART` lleva tus códigos de oferta, sin marcadores, y la función está desplegada con ellos.
 - [ ] Confirmaste en tu cuenta de Hotmart los puntos de «Lo que sigue exigiendo [VERIFICAR]» y quitaste los marcadores resueltos.
 - [ ] Los datos del responsable en `src/content/legal.ts` están completos y revisados por un abogado de tu país.
-- [ ] Nombre, eslogan, precios en dólares, prueba de 7 días, garantía de 7 días y correo de contacto coinciden con tu oferta (`src/config/plantilla.ts`, `src/domain/pricing.ts` y tu producto de Hotmart).
+- [ ] Nombre, eslogan, precios en dólares, prueba de 7 días, garantía de 15 días y correo de contacto coinciden con tu oferta (`src/config/plantilla.ts`, `src/domain/pricing.ts` y tu producto de Hotmart).
 - [ ] Ninguna clave en el código: `git status` no muestra `.env.local`, y `npm run barrido` pasa.
 - [ ] `npm run check`, `npm run e2e` y `npm run e2e:nube` pasan.
 - [ ] Probaste el recorrido completo en tu teléfono real.

@@ -1,3 +1,5 @@
+import { plantilla } from '../config/plantilla';
+
 export interface ShareCardInput {
   streak: number;
   days: { label: string; completed: boolean }[];
@@ -107,7 +109,7 @@ export function renderShareCard(input: ShareCardInput): Promise<Blob> {
   ctx.font = `500 40px ${FONT}`;
   ctx.fillText('Sin culpa · Sin trampas · Sin prisa', 120, 1260);
   ctx.textAlign = 'right';
-  ctx.fillText('Foco Mente', WIDTH - 120, 1260);
+  ctx.fillText(plantilla.nombre, WIDTH - 120, 1260);
 
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {

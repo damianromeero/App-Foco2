@@ -18,15 +18,15 @@ export interface Conexiones {
 }
 
 export const plantilla = {
-  nombre: 'Foco Mente',
-  eslogan: 'Entrena tu atención en 5 minutos.',
+  nombre: 'Atenzo',
+  eslogan: 'Tu entrenamiento diario de atención.',
   promesas: ['Sin culpa', 'Sin trampas', 'Sin prisa'] as const,
   minutosSesion: 5,
   /**
    * Garantía de reembolso, en días. Cada mención de la garantía en la app dice «Garantía de N días».
    * El cobro y el reembolso los gestiona Hotmart: pon aquí la misma duración que tu producto de Hotmart.
    */
-  garantiaDias: 7,
+  garantiaDias: 15,
   /**
    * Correo de contacto que ven las personas. «correo@example.com» es solo un ejemplo: cámbialo por un correo tuyo
    * que vayas a usar con la app. El gate (`npm run verificar`) no lo bloquea.

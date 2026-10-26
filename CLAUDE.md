@@ -5,7 +5,7 @@ Esta es una plantilla web (Vite + React) para entrenar la atención en cinco min
 ## Qué hace hoy y qué no
 
 - **En esta copia no hay ningún servicio conectado.** Sin `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY` todo funciona en modo local con datos del navegador: sin acceso, sin cobros y sin correo. Progreso, ajustes y onboarding se guardan en `localStorage` (clave `foco5`, interna: no la cambies sin migrar los datos). El bloque `conexiones` de `src/config/plantilla.ts` está en `false`.
-- **Cobro: Hotmart.** La compra, el cobro, la prueba de 7 días, la Garantía de 7 días (`garantiaDias`) y el reembolso los gestiona Hotmart; la app los anuncia pero no los controla. El aviso de compra llega a la función `supabase/functions/hotmart-aviso`:
+- **Cobro: Hotmart.** La compra, el cobro, la prueba de 7 días, la Garantía de 15 días (`garantiaDias`) y el reembolso los gestiona Hotmart; la app los anuncia pero no los controla. El aviso de compra llega a la función `supabase/functions/hotmart-aviso`:
   - El token `HOTMART_HOTTOK` es un secreto de Supabase. Llega solo en la cabecera `x-hotmart-hottok` (sin ella, 401) y se compara en tiempo constante.
   - La fecha `creation_date` y el `id` son obligatorios: sin ellos responde 400 (sin `id` no guarda nada). Un estado solo cambia si el aviso es más reciente que lo guardado, y la comparación es una sola sentencia de base.
   - Las reglas de acceso (estados, cancelación voluntaria o por impago, reembolso, reactivación) están en `docs/GUIA-ALUMNO.md`, sección «Reglas de acceso». Pedir un reembolso no quita el acceso; lo quitan REFUNDED o CHARGEBACK.

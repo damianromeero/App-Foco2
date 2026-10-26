@@ -199,7 +199,7 @@ test.describe('capturas de pantalla', () => {
 
   test('precios', async ({ page }, testInfo) => {
     await capturar(page, testInfo, '/precios', 'precios', () =>
-      expect(page.getByRole('heading', { level: 1 })).toContainText('Empieza gratis'),
+      expect(page.getByRole('heading', { level: 1 })).toContainText('Prueba 7 días'),
     );
   });
 

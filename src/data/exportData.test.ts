@@ -1,5 +1,6 @@
 import { emptyState } from '../store/appStore';
 import { buildExport, parseExport } from './exportData';
+import { plantilla } from '../config/plantilla';
 
 describe('exportación de datos', () => {
   const now = new Date('2026-10-16T10:00:00.000Z');
@@ -57,7 +58,9 @@ describe('exportación de datos', () => {
   });
 
   it('rechaza un archivo que no es una exportación de la app', () => {
-    expect(() => parseExport('{"hola": 1}')).toThrow('no es una exportación de Foco Mente');
+    expect(() => parseExport('{"hola": 1}')).toThrow(
+      `no es una exportación de ${plantilla.nombre}`,
+    );
   });
 
   it('rechaza un texto que no es JSON', () => {

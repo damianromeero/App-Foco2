@@ -55,7 +55,7 @@ test.describe('páginas públicas', () => {
     page,
   }) => {
     await page.goto('/');
-    const captura = page.getByRole('img', { name: 'Pantalla principal de la app Foco Mente' });
+    const captura = page.getByRole('img', { name: 'Pantalla principal de la app Atenzo' });
     await expect(captura).toBeVisible();
     await expect(captura).toHaveAttribute('fetchpriority', 'high');
     await expect(page.getByText('Sesión de 5 min')).toBeVisible();
@@ -63,18 +63,18 @@ test.describe('páginas públicas', () => {
     expect(heroe).not.toMatch(/ejemplo|demostración|demo/i);
   });
 
-  test('los precios muestran el mensual, el anual, la prueba y la garantía de 7 días', async ({
+  test('los precios muestran el mensual, el anual, la prueba y la garantía de 15 días', async ({
     page,
   }) => {
     await page.goto('/precios');
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('Empieza gratis');
-    await expect(page.getByText('US$5,99').first()).toBeVisible();
-    await expect(page.getByText('US$59,90').first()).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Prueba 7 días');
+    await expect(page.getByText('US$4,99').first()).toBeVisible();
+    await expect(page.getByText('US$39,90').first()).toBeVisible();
     await expect(page.getByText('Prueba de 7 días').first()).toBeVisible();
-    await expect(page.getByText('dos meses gratis').first()).toBeVisible();
+    await expect(page.getByText('cuatro meses gratis').first()).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Si no te convence' })).toBeVisible();
     await expect(page.getByText('Lo que pasa después.')).toBeVisible();
-    await expect(page.getByText('Garantía de 7 días').first()).toBeVisible();
+    await expect(page.getByText('Garantía de 15 días').first()).toBeVisible();
     expect(await seriousViolations(page)).toEqual([]);
   });
 

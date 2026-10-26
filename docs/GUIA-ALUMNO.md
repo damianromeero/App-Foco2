@@ -109,7 +109,7 @@ Abres cada uno de los cinco archivos de la carpeta `supabase/migrations/`, copia
 
 Esta es la parte que hace que la app sepa quién pagó.
 
-1. **Paso 7.** En Hotmart creas el producto con dos planes (mensual y anual, en dólares), configuras la prueba de 7 días y la garantía de 7 días, y copias el código de cada plan. Esos dos códigos los pegas en `supabase/functions/_shared/hotmart.ts`. Si no los pegas, la app no reconocerá ninguna compra.
+1. **Paso 7.** En Hotmart creas el producto con dos planes (mensual y anual, en dólares), configuras la prueba de 7 días y la garantía de 15 días, y copias el código de cada plan. Esos dos códigos los pegas en `supabase/functions/_shared/hotmart.ts`. Si no los pegas, la app no reconocerá ninguna compra.
 2. **Paso 8.** Instalas la herramienta de Supabase en tu terminal y publicas la función que recibe los avisos.
 3. **Paso 9.** En Hotmart pones la dirección de tu función (`https://<tu-proyecto>.supabase.co/functions/v1/hotmart-aviso`), eliges los eventos y copias el token. Ese token lo guardas como secreto en Supabase.
 4. **Paso 10.** Envías un aviso de prueba desde Hotmart y compruebas que tu función lo recibe y lo guarda.

@@ -6,6 +6,7 @@ import { Card, Notice } from '../../components/ui/Surfaces';
 import { useDocumentMeta } from '../../hooks/useDocumentMeta';
 import { TRIAL_DAYS } from '../../domain/pricing';
 import { useBillingStore } from '../../store/billingStore';
+import { plantilla } from '../../config/plantilla';
 
 /** Tarjeta única de resumen: un estado, un mensaje y una acción principal. */
 function Summary({ children }: { children: ReactNode }) {
@@ -22,7 +23,7 @@ function Summary({ children }: { children: ReactNode }) {
 export default function Checkout() {
   useDocumentMeta({
     title: 'Pago',
-    description: 'Plan y pago de Foco Mente.',
+    description: `Plan y pago de ${plantilla.nombre}.`,
   });
   const [params] = useSearchParams();
   const status = params.get('estado');

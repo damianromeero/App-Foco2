@@ -45,9 +45,9 @@ El detalle de cada paso (qué pulsar, qué debe salir y qué hacer si falla) est
 Con Hotmart, la compra, la prueba, la garantía y el reembolso van por Hotmart. La app no recibe ni guarda datos de pago.
 
 1. **Producto y ofertas**, en dólares (USD):
-   - Oferta mensual y oferta anual, con renovación automática. Los importes sugeridos están en `src/domain/pricing.ts` (US$5,99 y US$59,90). Precios sugeridos: confirma tu oferta en Hotmart antes de vender.
+   - Oferta mensual y oferta anual, con renovación automática. Los importes sugeridos están en `src/domain/pricing.ts` (US$4,99 y US$39,90). Precios sugeridos: confirma tu oferta en Hotmart antes de vender.
    - La prueba de 7 días la configuras en Hotmart (`TRIAL_DAYS` en `src/domain/pricing.ts`). La app la anuncia pero no la controla.
-   - La garantía de 7 días la configuras en Hotmart (`garantiaDias` en `src/config/plantilla.ts`).
+   - La garantía de 15 días la configuras en Hotmart (`garantiaDias` en `src/config/plantilla.ts`).
    - Copia el código de cada oferta y pégalo en `OFERTAS_HOTMART`, en `supabase/functions/_shared/hotmart.ts`. Sin ellos, los avisos quedan como `sin-plan`.
 2. **Impuestos**: configura el IVA o el impuesto de tu país en Hotmart y comprueba que el precio mostrado coincide con lo que se cobra. Ver [LEGAL.md](LEGAL.md).
 3. **Variables del servidor** (no llevan `VITE_`): `SUPABASE_URL` y `SUPABASE_ANON_KEY` para las rutas `/api` (sesión, sincronización y cuenta). Solo la clave anon; la de servicio no se usa aquí. `[VERIFICAR: que Vercel las entrega a las funciones de api/ en tu despliegue]`
@@ -146,8 +146,8 @@ Solo después de revisarlo todo, abre la oferta a la venta.
 1. **Productos y precios** (en modo de pruebas primero):
    - Producto «Foco Mente Premium».
    - Moneda de todos los precios: dólares (USD).
-   - Precio recurrente mensual: US$5,99. Debe coincidir con `src/domain/pricing.ts`.
-   - Precio recurrente anual: US$59,90. Debe coincidir con `src/domain/pricing.ts`.
+   - Precio recurrente mensual: US$4,99. Debe coincidir con `src/domain/pricing.ts`.
+   - Precio recurrente anual: US$39,90. Debe coincidir con `src/domain/pricing.ts`.
    - La prueba de 7 días la fija la función `create-checkout-session` (`trial_period_days: 7`). Debe coincidir con `TRIAL_DAYS` en `src/domain/pricing.ts`.
    - Copia los dos identificadores `price_...`.
 2. **Impuestos**: configura el IVA según tu país y comprueba que el precio mostrado coincide con lo que se cobra.

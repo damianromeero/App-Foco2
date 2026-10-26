@@ -38,7 +38,7 @@ const LINK_ROW =
 export default function Settings() {
   useDocumentMeta({
     title: 'Ajustes',
-    description: 'Apariencia, accesibilidad y datos de tu copia de Foco Mente.',
+    description: `Apariencia, accesibilidad y datos de tu copia de ${plantilla.nombre}.`,
   });
   const navigate = useNavigate();
   const toast = useToast();

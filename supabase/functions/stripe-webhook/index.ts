@@ -85,7 +85,7 @@ async function handleTrialWillEnd(subscription: SubscriptionLike): Promise<void>
   if (!profile?.email) return;
   await sendEmail({
     to: profile.email,
-    subject: 'Tu prueba de Foco Mente termina en tres días',
+    subject: 'Tu prueba de Atenzo termina en tres días',
     text: 'Tu prueba termina en tres días. Si no quieres seguir, puedes cancelar desde Cuenta en la app. Sin cobros sorpresa.',
   });
 }

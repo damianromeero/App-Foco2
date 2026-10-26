@@ -1,6 +1,5 @@
 import {
   ArrowUUpLeftIcon,
-  CheckIcon,
   CrownIcon,
   CreditCardIcon,
   LeafIcon,
@@ -13,26 +12,16 @@ import { useEffect, useState } from 'react';
 import {
   CompraPremium,
   FAQ_PAGO,
-  FREE_GAMES,
   PlanOption,
   PREMIUM_FEATURES,
   SIN_COBRO_HOY,
 } from '../../components/pricing/Planes';
-import { LinkButton } from '../../components/ui/Button';
 import { Card, PageHeader, SectionTitle } from '../../components/ui/Surfaces';
 import { GARANTIA } from '../../config/plantilla';
 import { FAQ } from '../../content/copy';
 import { PLAN_IDS, PLANS, TRIAL_DAYS, formatUSD, type PlanId } from '../../domain/pricing';
 import { useDocumentMeta } from '../../hooks/useDocumentMeta';
 import { registrarEvento } from '../../services/medicion';
-
-const FREE_FEATURES = [
-  'La sesión diaria completa de 5 minutos.',
-  `${FREE_GAMES} juegos, test base y re-test.`,
-  'Tu progreso de forma resumida.',
-  'Exporta y borra tus datos cuando quieras.',
-  'Sin anuncios, sin cookies de terceros.',
-];
 
 export default function Pricing() {
   useDocumentMeta({
@@ -52,7 +41,7 @@ export default function Pricing() {
         eyebrow="Precios"
         title={
           <>
-            Empieza gratis. Decide con <span className="pixel-accent">calma</span>.
+            Prueba {TRIAL_DAYS} días. Decide con <span className="pixel-accent">calma</span>.
           </>
         }
         lead={`Prueba de ${TRIAL_DAYS} días. ${GARANTIA}: si no te convence, pides el reembolso. El cobro y el reembolso los gestiona Hotmart.`}
@@ -78,7 +67,7 @@ export default function Pricing() {
           </div>
         </fieldset>
 
-        <div className="grid gap-5 md:grid-cols-[1.25fr_1fr]">
+        <div className="mx-auto grid max-w-2xl gap-5">
           <Card as="article" labelledBy="plan-premium" variant="hero">
             <div className="flex h-full flex-col gap-6">
               <div className="flex items-center gap-3">
@@ -87,7 +76,7 @@ export default function Pricing() {
                   Premium · {selected.label}
                 </h3>
               </div>
-              <p className="text-ink-soft">Lo que suma a tu sesión diaria gratuita:</p>
+              <p className="text-ink-soft">Todo lo que incluye:</p>
               <ul className="space-y-3 text-ink-soft">
                 {PREMIUM_FEATURES.map((feature) => (
                   <li key={feature.text} className="flex items-center gap-3">
@@ -108,30 +97,6 @@ export default function Pricing() {
                   {GARANTIA}. El cobro y el reembolso los gestiona Hotmart.
                 </p>
               </div>
-            </div>
-          </Card>
-
-          <Card as="article" labelledBy="plan-gratis">
-            <div className="flex h-full flex-col gap-6">
-              <h3 id="plan-gratis" className="text-2xl font-bold">
-                Gratuito
-              </h3>
-              <p className="figure text-5xl">US$0</p>
-              <ul className="space-y-3 text-ink-soft">
-                {FREE_FEATURES.map((feature) => (
-                  <li key={feature} className="flex gap-3">
-                    <CheckIcon
-                      weight="bold"
-                      aria-hidden="true"
-                      className="mt-1 size-4 shrink-0 text-brand"
-                    />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <LinkButton to="/onboarding" variant="secondary" className="mt-auto w-full">
-                Empezar gratis
-              </LinkButton>
             </div>
           </Card>
         </div>
@@ -184,16 +149,16 @@ export default function Pricing() {
               </div>
             </div>
           </Card>
-          <Card labelledBy="gratuito-t">
+          <Card labelledBy="cancelar-t">
             <div className="flex gap-4">
               <IconTile icon={LeafIcon} />
               <div className="space-y-2">
-                <h3 id="gratuito-t" className="text-xl font-bold">
-                  Plan gratuito
+                <h3 id="cancelar-t" className="text-xl font-bold">
+                  Cancelar
                 </h3>
                 <p className="text-ink-soft">
-                  La sesión diaria de 5 minutos sigue siendo gratis. Tu progreso se queda en
-                  tu&nbsp;dispositivo.
+                  Cancelas tu suscripción en Hotmart cuando quieras. El primer cobro llega al
+                  terminar la&nbsp;prueba.
                 </p>
               </div>
             </div>

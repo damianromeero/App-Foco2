@@ -1,11 +1,12 @@
 import { CompassIcon } from '@phosphor-icons/react';
 import { LinkButton } from '../../components/ui/Button';
 import { useDocumentMeta } from '../../hooks/useDocumentMeta';
+import { plantilla } from '../../config/plantilla';
 
 export default function NotFound() {
   useDocumentMeta({
     title: 'Página no encontrada',
-    description: 'Esta página no existe. Vuelve a Foco Mente para seguir entrenando.',
+    description: `Esta página no existe. Vuelve a ${plantilla.nombre} para seguir entrenando.`,
   });
   return (
     <div className="mx-auto flex min-h-[60dvh] max-w-md flex-col items-center justify-center gap-6 px-4 text-center">

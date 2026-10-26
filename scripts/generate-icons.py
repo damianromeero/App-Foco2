@@ -80,7 +80,7 @@ def build_og_image() -> Image.Image:
     title_font = load_font(84, bold=True)
     body_font = load_font(38, bold=False)
     x = 420
-    draw.text((x, 210), "Foco Mente", font=title_font, fill=INK)
+    draw.text((x, 210), "Atenzo", font=title_font, fill=INK)
     draw.text((x, 320), "Entrena tu atención en 5 minutos.", font=body_font, fill=INK)
     draw.text((x, 378), "Sin culpa · Sin trampas · Sin prisa", font=body_font, fill=INK_SOFT)
     return img

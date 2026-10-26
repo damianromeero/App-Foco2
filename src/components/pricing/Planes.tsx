@@ -50,7 +50,7 @@ export const PREMIUM_FEATURES: { icon: PhosphorIcon; text: string }[] = [
   { icon: ChartLineUpIcon, text: 'Tu evolución completa, juego por juego.' },
   { icon: BookOpenTextIcon, text: 'Todas las lecciones, con sus fuentes.' },
   { icon: TrophyIcon, text: 'Retos extra con los juegos premium.' },
-  { icon: LeafIcon, text: 'Todo lo gratuito sigue siendo gratis.' },
+  { icon: LeafIcon, text: 'La sesión diaria de 5 minutos, con test base y re-test.' },
 ];
 
 /** Preguntas de la FAQ que responden la objeción del pago, junto al botón. */

@@ -13,6 +13,7 @@ import {
 import { registrarEvento } from '../../services/medicion';
 import { isCloudEnabled } from '../../services/supabase';
 import { useDocumentMeta } from '../../hooks/useDocumentMeta';
+import { plantilla } from '../../config/plantilla';
 
 /**
  * Pantalla para quien entró con un correo sin compra activa. Muestra el correo enmascarado y permite usar otro correo o
@@ -22,7 +23,7 @@ import { useDocumentMeta } from '../../hooks/useDocumentMeta';
 export default function SinCompra() {
   useDocumentMeta({
     title: 'Sin compra',
-    description: 'Tu correo no tiene una compra activa en Foco Mente.',
+    description: `Tu correo no tiene una compra activa en ${plantilla.nombre}.`,
   });
   const navigate = useNavigate();
   const conectado = isCloudEnabled();

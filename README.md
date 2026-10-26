@@ -18,7 +18,7 @@ La plantilla ya incluye las piezas para venderla con **Hotmart**. Se activan cua
 - **Panel `/admin`.** Solo lectura: ventas, avisos de Hotmart y uso. Exige estar en la lista de administradoras y entrar con segundo factor.
 - **Medición anónima.** Apagada. Se enciende con dos interruptores.
 
-La compra, la prueba de 7 días, el cobro y el reembolso con Garantía de 7 días los gestiona Hotmart: la app los anuncia pero no los controla. Las funciones de Stripe que siguen en `supabase/functions/` son una opción avanzada que **no se usa con Hotmart y no está conectada**.
+La compra, la prueba de 7 días, el cobro y el reembolso con Garantía de 15 días los gestiona Hotmart: la app los anuncia pero no los controla. Las funciones de Stripe que siguen en `supabase/functions/` son una opción avanzada que **no se usa con Hotmart y no está conectada**.
 
 El paso a paso para conectarlo todo está en [docs/INFRAESTRUCTURA.md](docs/INFRAESTRUCTURA.md). Si prefieres una versión en lenguaje llano, lee [docs/GUIA-ALUMNO.md](docs/GUIA-ALUMNO.md).
 
@@ -80,9 +80,9 @@ La primera vez, las pruebas e2e necesitan Chromium: `npx playwright install chro
 ## Datos de ejemplo que debes cambiar
 
 - **Correo de contacto:** `correo@example.com` es solo un ejemplo. Cámbialo en `src/config/plantilla.ts` y en `VITE_SUPPORT_EMAIL` (`.env.local`) para que sea el mismo. El gate no lo bloquea.
-- **Precios en dólares:** US$5,99 al mes y US$59,90 al año, en `src/domain/pricing.ts`. Precios sugeridos: confirma tu oferta en Hotmart antes de vender.
+- **Precios en dólares:** US$4,99 al mes y US$39,90 al año, en `src/domain/pricing.ts`. Precios sugeridos: confirma tu oferta en Hotmart antes de vender.
 - **Prueba de 7 días:** `TRIAL_DAYS = 7` en `src/domain/pricing.ts`. La portada, los precios y las preguntas frecuentes la anuncian. La prueba la configuras en tu producto de Hotmart; la app no la controla.
-- **Garantía de 7 días:** `garantiaDias: 7` en `src/config/plantilla.ts`. Cada mención dice «Garantía de 7 días». Confírmala en tu producto de Hotmart antes de vender.
+- **Garantía de 15 días:** `garantiaDias: 15` en `src/config/plantilla.ts`. Cada mención dice «Garantía de 15 días». Confírmala en tu producto de Hotmart antes de vender.
 - **Responsable:** los datos del titular en `src/content/legal.ts` son marcadores `[COMPLETAR: …]` (titular, identificador fiscal, domicilio, ley aplicable, proveedor del correo de entrada y región de alojamiento). Complétalos con tus datos y revísalos con un abogado de tu país.
 - **Códigos de oferta de Hotmart:** `OFERTAS_HOTMART` en `supabase/functions/_shared/hotmart.ts` trae marcadores. Sin tus códigos, ninguna compra se reconoce.
 - **Eslogan y promesas:** en `src/config/plantilla.ts`.

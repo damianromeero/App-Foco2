@@ -230,7 +230,9 @@ function OnboardingFlow() {
       </header>
 
       <main id="contenido" className="mx-auto w-full max-w-2xl px-4 pb-16 sm:px-6">
-        <h1 className="sr-only">{retest ? 'Repetir el test base' : 'Empezar con Foco Mente'}</h1>
+        <h1 className="sr-only">
+          {retest ? 'Repetir el test base' : `Empezar con ${plantilla.nombre}`}
+        </h1>
         {!retest && (
           <div className="mt-2">
             <StepProgress current={stepNumber} total={4} />

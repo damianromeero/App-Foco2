@@ -1,6 +1,6 @@
 import type { Goal } from '../domain/model';
 import { TRIAL_DAYS } from '../domain/pricing';
-import { GARANTIA } from '../config/plantilla';
+import { GARANTIA, plantilla } from '../config/plantilla';
 
 /**
  * Voz de marca en un solo sitio. Reglas: tuteo, frases cortas, cero culpa, cero urgencia falsa,
@@ -142,8 +142,7 @@ export const GOAL_PARA: Record<Goal, string> = {
 export const FAQ: { question: string; answer: string }[] = [
   {
     question: '¿Es neuroestimulación?',
-    answer:
-      'No. Una aplicación no puede estimular el cerebro; eso requiere dispositivos médicos. Foco Mente es entrenamiento de la atención con juegos breves.',
+    answer: `No. Una aplicación no puede estimular el cerebro; eso requiere dispositivos médicos. ${plantilla.nombre} es entrenamiento de la atención con juegos breves.`,
   },
   {
     question: '¿Mejora mi cerebro?',
@@ -161,7 +160,7 @@ export const FAQ: { question: string; answer: string }[] = [
   },
   {
     question: '¿Cómo cancelo o pido el\u00a0reembolso?',
-    answer: `Las cancelaciones y los reembolsos los gestiona Hotmart. ${GARANTIA}: pide el reembolso dentro de ese plazo. La versión gratuita no tiene nada que cancelar.`,
+    answer: `Las cancelaciones y los reembolsos los gestiona Hotmart. ${GARANTIA}: pide el reembolso dentro de ese plazo.`,
   },
   {
     question: '¿Y si no me convence?',

@@ -84,7 +84,7 @@ test.describe('embudo de venta @demo', () => {
       .evaluateAll((nodos) => nodos.map((nodo) => nodo.id));
     expect(orden).toEqual(['paywall-titulo', 'incluye', 'elige']);
     await expect(page.getByRole('list', { name: 'Todo lo que incluye Premium' })).toContainText(
-      'Garantía de 7 días',
+      'Garantía de 15 días',
     );
     const textoPaywall = await page.locator('main').innerText();
     expect(textoPaywall).not.toMatch(
@@ -94,10 +94,10 @@ test.describe('embudo de venta @demo', () => {
     // El anual va recomendado y elegido; el mensual sigue a la vista con su precio completo.
     await expect(page.getByRole('radio', { name: /Anual/ })).toBeChecked();
     await expect(page.getByText('Mejor precio')).toBeVisible();
-    await expect(page.getByText('US$4,99', { exact: true })).toBeVisible();
-    await expect(page.getByText('US$59,90 al año · dos meses gratis')).toBeVisible();
+    await expect(page.getByText('US$3,33', { exact: true })).toBeVisible();
+    await expect(page.getByText('US$39,90 al año · cuatro meses gratis')).toBeVisible();
     await expect(page.getByRole('radio', { name: /Mensual/ })).not.toBeChecked();
-    await expect(page.getByText('US$5,99', { exact: true })).toBeVisible();
+    await expect(page.getByText('US$4,99', { exact: true })).toBeVisible();
     // Sin enlace de Hotmart (esta pasada), el botón principal dice adónde lleva: a la app, sin cobro ni prueba simulada.
     await expect(page.getByRole('link', { name: 'Empezar a entrenar' })).toHaveAttribute(
       'href',
@@ -107,12 +107,12 @@ test.describe('embudo de venta @demo', () => {
     await expect(
       page.getByText('No te cobran hoy. El primer cobro llega al terminar la prueba, si sigues.'),
     ).toBeVisible();
-    await expect(page.getByText('Garantía de 7 días').first()).toBeVisible();
+    await expect(page.getByText('Garantía de 15 días').first()).toBeVisible();
 
     // Elegir el mensual cambia lo que se cobra después de la prueba.
     await page.locator('label', { has: page.getByRole('radio', { name: /Mensual/ }) }).click();
     await expect(page.getByRole('radio', { name: /Mensual/ })).toBeChecked();
-    await expect(page.getByText('Hotmart cobra US$5,99 al mes, si sigues.')).toBeVisible();
+    await expect(page.getByText('Hotmart cobra US$4,99 al mes, si sigues.')).toBeVisible();
 
     // Sin pagar: el plan gratuito lleva a Hoy, con el inicio ya hecho.
     await page.getByRole('link', { name: 'Seguir con el plan gratuito' }).click();

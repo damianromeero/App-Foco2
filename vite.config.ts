@@ -13,8 +13,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'og-image.png'],
       manifest: {
-        name: 'Foco Mente: entrena tu atención en 5 minutos',
-        short_name: 'Foco Mente',
+        name: 'Atenzo: tu entrenamiento diario de atención',
+        short_name: 'Atenzo',
         description: 'Juegos breves para entrenar tu atención. Sin culpa, sin trampas, sin prisa.',
         lang: 'es',
         start_url: '/hoy',

@@ -4,6 +4,7 @@ import { Link, NavLink, Outlet, useLocation } from 'react-router';
 import { Logo } from '../components/brand/Logo';
 import { LinkButton } from '../components/ui/Button';
 import { plantilla } from '../config/plantilla';
+import { TRIAL_DAYS } from '../domain/pricing';
 import { env } from '../config/env';
 import { LEGAL_DOCUMENTS } from '../content/legal';
 
@@ -103,7 +104,7 @@ function PublicHeader() {
               id="cta-cabecera"
               data-evento="inicio-gratis"
             >
-              Empezar gratis
+              Prueba {TRIAL_DAYS} días gratis
             </LinkButton>
           </div>
         </div>
@@ -124,7 +125,7 @@ function PublicHeader() {
               ))}
             </ul>
             <LinkButton to="/onboarding" size="lg" className="mt-2 w-full" onClick={close}>
-              Empezar gratis
+              Prueba {TRIAL_DAYS} días gratis
             </LinkButton>
           </nav>
         )}

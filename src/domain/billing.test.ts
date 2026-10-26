@@ -39,7 +39,7 @@ describe('describeBilling', () => {
     expect(view.entitlement).toBe('premium');
     expect(view.phase).toBe('prueba');
     expect(view.trialDaysLeft).toBe(5);
-    expect(view.nextChargeCents).toBe(599);
+    expect(view.nextChargeCents).toBe(499);
     expect(view.canCancel).toBe(true);
   });
 
@@ -49,7 +49,7 @@ describe('describeBilling', () => {
       NOW,
     );
     expect(view.phase).toBe('prueba-por-terminar');
-    expect(view.nextChargeCents).toBe(5990);
+    expect(view.nextChargeCents).toBe(3990);
   });
 
   it('cancelar durante la prueba conserva el acceso hasta que termina', () => {
@@ -68,7 +68,7 @@ describe('describeBilling', () => {
       NOW,
     );
     expect(view.phase).toBe('activa');
-    expect(view.nextChargeCents).toBe(5990);
+    expect(view.nextChargeCents).toBe(3990);
     expect(view.canCancel).toBe(true);
     expect(view.canWithdraw).toBe(false);
   });
@@ -131,20 +131,20 @@ describe('describeBilling', () => {
 });
 
 describe('precios', () => {
-  it('el plan anual equivale a diez mensualidades: dos meses gratis', () => {
-    expect(PLANS.annual.cents).toBe(PLANS.monthly.cents * 10);
-    expect(mesesGratisAnual()).toBe(2);
-    expect(ANNUAL_BONUS).toBe('dos meses gratis');
+  it('el plan anual equivale a unas ocho mensualidades: cuatro meses gratis', () => {
+    expect(Math.round(PLANS.annual.cents / PLANS.monthly.cents)).toBe(8);
+    expect(mesesGratisAnual()).toBe(4);
+    expect(ANNUAL_BONUS).toBe('cuatro meses gratis');
   });
 
-  it('el anual equivale a US$4,99 al mes', () => {
-    expect(monthlyEquivalentCents('annual')).toBe(499);
-    expect(formatUSD(monthlyEquivalentCents('annual'))).toBe('US$4,99');
+  it('el anual equivale a US$3,33 al mes', () => {
+    expect(monthlyEquivalentCents('annual')).toBe(333);
+    expect(formatUSD(monthlyEquivalentCents('annual'))).toBe('US$3,33');
   });
 
   it('formatea en dólares con coma decimal y símbolo delante', () => {
-    expect(formatUSD(PLANS.monthly.cents)).toBe('US$5,99');
-    expect(formatUSD(PLANS.annual.cents)).toBe('US$59,90');
+    expect(formatUSD(PLANS.monthly.cents)).toBe('US$4,99');
+    expect(formatUSD(PLANS.annual.cents)).toBe('US$39,90');
     expect(formatUSD(0)).toBe('US$0,00');
   });
 

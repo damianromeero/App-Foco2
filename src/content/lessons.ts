@@ -1,3 +1,5 @@
+import { plantilla } from '../config/plantilla';
+
 export interface Lesson {
   id: string;
   title: string;
@@ -26,7 +28,7 @@ export const LESSONS: Lesson[] = [
   {
     id: 'por-que-variar',
     title: 'Entrenar mejora sobre todo lo que entrenas',
-    summary: 'Por qué Foco Mente cambia de juego cada día y no te promete milagros.',
+    summary: `Por qué ${plantilla.nombre} cambia de juego cada día y no te promete milagros.`,
     minutes: 1,
     free: true,
     paragraphs: [

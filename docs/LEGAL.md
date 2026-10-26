@@ -12,7 +12,7 @@
 - **Medición anónima apagada.** Por defecto la app no envía ni guarda ninguna medición. Si la enciendes, cambia lo que debes contar en la política de privacidad y en la de cookies (ver abajo).
 - **Portabilidad.** Exportación en JSON legible, gratuita, desde Ajustes y desde Cuenta.
 - **Supresión.** Borrado local con confirmación desde Ajustes, que también borra las sesiones de la nube. El botón «Eliminar mi cuenta» de Cuenta pide escribir ELIMINAR y llama a la función de base `borrar_mi_cuenta()`, que no usa Stripe: la suscripción de Hotmart la cancela el comprador en Hotmart, porque la app no puede hacerlo. Los datos de compra se atienden como se indica abajo.
-- **Garantía y reembolso.** La Garantía de 7 días y el reembolso los gestiona Hotmart. La app no tiene un proceso propio de reembolso. La función `withdraw-subscription` de Stripe no se usa con Hotmart.
+- **Garantía y reembolso.** La Garantía de 15 días y el reembolso los gestiona Hotmart. La app no tiene un proceso propio de reembolso. La función `withdraw-subscription` de Stripe no se usa con Hotmart.
 - **Cancelación.** La gestiona Hotmart. Cuando Hotmart avisa de la cancelación de una suscripción, la plantilla quita el acceso en ese momento.
 - **Aviso antes del cobro.** Con Hotmart, la app no avisa de cobros. Si añades avisos de renovación, revisa la normativa de tu país.
 - **Seguridad por fila (RLS)** en todas las tablas. Los avisos de Hotmart se aceptan solo con el token `HOTMART_HOTTOK`, que se compara en tiempo constante antes de guardar nada. Los eventos de Stripe (opción avanzada) se verifican con su firma.
@@ -22,7 +22,7 @@
 
 ### Contratación y consumo
 
-- **Botón de desistimiento europeo.** Confirma en EUR-Lex y en el BOE si la directiva (UE) 2023/2673 te afecta y desde cuándo en tu país, y cómo se combina con la Garantía de 7 días.
+- **Botón de desistimiento europeo.** Confirma en EUR-Lex y en el BOE si la directiva (UE) 2023/2673 te afecta y desde cuándo en tu país, y cómo se combina con la Garantía de 15 días.
 - **Renovación automática.** Confirma si la normativa de consumo española exige avisar antes de cada renovación y con cuánta antelación. Hasta confirmarlo, el aviso depende de la configuración de Hotmart.
 - **Prueba gratuita.** La app no ofrece prueba propia. Si la ofreces en Hotmart con cobro automático, exige información previa y revisa que la pantalla de precios la cumple en el momento de la contratación.
 - **Inicio del servicio durante el desistimiento.** Si el servicio empieza antes de que acabe el plazo de desistimiento, la persona debe pedirlo de forma expresa. La plantilla no pide esa aceptación en el pago: decide si añadir la casilla y su texto.

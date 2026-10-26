@@ -2,7 +2,7 @@
   "name": "foco-mente-web",
   "private": true,
   "version": "1.0.0",
-  "description": "Foco Mente: entrena tu atención en 5 minutos al día. Sin culpa, sin trampas, sin prisa.",
+  "description": "Atenzo: tu entrenamiento diario de atención. Sin culpa, sin trampas, sin prisa.",
   "type": "module",
   "engines": {
     "node": ">=22"

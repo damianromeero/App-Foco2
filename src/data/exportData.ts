@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { persistedStateSchema, type PersistedState } from '../domain/model';
+import { plantilla } from '../config/plantilla';
 
 export const EXPORT_FORMAT = 'foco5-export';
 export const EXPORT_VERSION = 1;
@@ -35,7 +36,7 @@ export function parseExport(text: string): PersistedState {
   }
   const parsed = exportFileSchema.safeParse(raw);
   if (!parsed.success) {
-    throw new Error('Este archivo no es una exportación de Foco Mente.');
+    throw new Error(`Este archivo no es una exportación de ${plantilla.nombre}.`);
   }
   return { ...parsed.data.data, dailyPlan: null, demoBilling: null };
 }

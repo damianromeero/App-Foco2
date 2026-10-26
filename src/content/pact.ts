@@ -1,4 +1,5 @@
 import { GARANTIA } from '../config/plantilla';
+import { TRIAL_DAYS } from '../domain/pricing';
 
 /**
  * El Pacto Sin Trampas: promesas públicas que se pueden comprobar en la propia app.
@@ -21,9 +22,9 @@ export const PACT: PactItem[] = [
       'La app solo habla con su propio dominio y, si tienes cuenta, con el servicio de cuentas. Las herramientas de desarrollo muestran la lista de peticiones.',
   },
   {
-    promise: 'La sesión diaria completa es gratis, siempre.',
+    promise: `Pruebas ${TRIAL_DAYS} días antes del primer cobro.`,
     howToCheck:
-      'El plan gratuito incluye la sesión de 5 minutos con tres juegos, sin fecha de caducidad.',
+      'La prueba la gestiona Hotmart: el primer cobro llega al terminarla, si sigues. Lo verás en Precios.',
   },
   {
     promise: 'Ni culpa ni racha perdida.',
@@ -48,7 +49,7 @@ export const PACT: PactItem[] = [
   {
     promise: 'Empiezas sin contraseñas.',
     howToCheck:
-      'La versión gratuita funciona en tu dispositivo sin registrarte. La cuenta es opcional.',
+      'Entras con el enlace que llega al correo de tu compra. No hay contraseñas que recordar.',
   },
   {
     promise: 'Tus datos son tuyos: exporta o borra todo cuando quieras, gratis.',

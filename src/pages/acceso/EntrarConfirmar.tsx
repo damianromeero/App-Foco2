@@ -8,6 +8,7 @@ import { registrarEvento } from '../../services/medicion';
 import { isCloudEnabled } from '../../services/supabase';
 import { useAuthStore } from '../../store/authStore';
 import { useDocumentMeta } from '../../hooks/useDocumentMeta';
+import { plantilla } from '../../config/plantilla';
 
 /**
  * Destino del enlace del correo. La librería convierte el enlace en sesión y aquí se comprueba la compra: con acceso va a
@@ -17,7 +18,7 @@ import { useDocumentMeta } from '../../hooks/useDocumentMeta';
 export default function EntrarConfirmar() {
   useDocumentMeta({
     title: 'Confirmar acceso',
-    description: 'Comprobando tu acceso a Foco Mente.',
+    description: `Comprobando tu acceso a ${plantilla.nombre}.`,
   });
   const navigate = useNavigate();
   const conectado = isCloudEnabled();

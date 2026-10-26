@@ -112,7 +112,7 @@ Reglas:
 
 1. Decide y anota fuera del repositorio: nombre de la marca, dominio (sin `https://` ni barra final), correo de contacto y de soporte, precios en dólares, días de prueba y días de garantía.
 2. Abre `src/config/plantilla.ts` y cambia `nombre`, `eslogan`, `promesas`, `minutosSesion`, `garantiaDias` y `contactoEmail`. `correo@example.com` es solo un ejemplo.
-3. Abre `src/domain/pricing.ts` y revisa los precios (`PLANS`, en centavos de dólar) y `TRIAL_DAYS`. Los importes de la plantilla (US$5,99 al mes y US$59,90 al año) son sugeridos: confirma tu oferta en Hotmart antes de vender. Si cambias un precio, cámbialo también en Hotmart.
+3. Abre `src/domain/pricing.ts` y revisa los precios (`PLANS`, en centavos de dólar) y `TRIAL_DAYS`. Los importes de la plantilla (US$4,99 al mes y US$39,90 al año) son sugeridos: confirma tu oferta en Hotmart antes de vender. Si cambias un precio, cámbialo también en Hotmart.
 4. Si cambias el nombre, también aparece en `index.html` (título y etiquetas para compartir) y en el manifiesto de `vite.config.ts` (`name` y `short_name`). Los iconos se regeneran con `scripts/generate-icons.py`. Los colores y las tipografías están en `src/index.css`.
 5. Los textos de la portada, las promesas y las preguntas frecuentes están en `src/content/copy.ts`. Léelos enteros: no deben prometer nada que tu oferta no cumpla (prueba, garantía, cancelación).
 6. Decide si tu app tendrá versión gratuita. Con Supabase conectado, la app de `/hoy` en adelante exige una compra activa; el inicio guiado (`/onboarding`) no la exige. La portada y `/precios` hablan de «Empezar gratis» y de un plan «Gratuito». Es una decisión tuya: adapta esos textos a lo que de verdad ofreces (`src/content/copy.ts`, `src/content/pact.ts` y `src/pages/marketing/Pricing.tsx`).
@@ -265,7 +265,7 @@ La primera lista once tablas: `accesos`, `administradores`, `billing_events`, `c
 
 1. Crea tu cuenta de productor en Hotmart y tu producto como suscripción. `[VERIFICAR: nombres de los menús y del tipo de producto en tu cuenta]`
 2. Crea dos ofertas o planes: **mensual** y **anual**, con renovación automática y precio en dólares (USD). Los importes sugeridos están en `src/domain/pricing.ts`. La función solo registra compras en USD: un aviso en otra divisa queda como `divisa-no-usd`. `[VERIFICAR: que el aviso de tu oferta trae la divisa USD en data.purchase.price.currency_code]`
-3. Configura en Hotmart la **prueba de 7 días** (`TRIAL_DAYS` en `src/domain/pricing.ts`) y la **garantía de 7 días** (`garantiaDias` en `src/config/plantilla.ts`). La portada, los precios y las preguntas frecuentes las anuncian, pero la app no las controla. `[VERIFICAR: que Hotmart ofrece una prueba gratuita y una garantía de 7 días para tu producto, y cómo se llaman esas opciones]` Si Hotmart no las ofrece, no las anuncies: cambia los textos.
+3. Configura en Hotmart la **prueba de 7 días** (`TRIAL_DAYS` en `src/domain/pricing.ts`) y la **garantía de 15 días** (`garantiaDias` en `src/config/plantilla.ts`). La portada, los precios y las preguntas frecuentes las anuncian, pero la app no las controla. `[VERIFICAR: que Hotmart ofrece una prueba gratuita y una garantía de 15 días para tu producto, y cómo se llaman esas opciones]` Si Hotmart no las ofrece, no las anuncies: cambia los textos.
 4. Copia el **código de cada oferta** (busca «código de oferta» u «offer code» en la ficha de la oferta). `[VERIFICAR: dónde lo muestra tu cuenta]`
 5. Abre `supabase/functions/_shared/hotmart.ts`, busca `OFERTAS_HOTMART` y sustituye los dos marcadores por esos códigos:
 
