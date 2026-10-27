@@ -44,7 +44,7 @@ export default function Pricing() {
             Prueba {TRIAL_DAYS} días. Decide con <span className="pixel-accent">calma</span>.
           </>
         }
-        lead={`Prueba de ${TRIAL_DAYS} días. ${GARANTIA}: si no te convence, pides el reembolso. El cobro y el reembolso los gestiona Hotmart.`}
+        lead={`Prueba de ${TRIAL_DAYS} días. ${GARANTIA}: si no te convence, pides el reembolso.`}
       />
 
       <section aria-labelledby="planes" className="space-y-8">
@@ -94,7 +94,7 @@ export default function Pricing() {
                 <CompraPremium plan={plan} />
                 <p className="text-center text-sm text-ink-soft">{SIN_COBRO_HOY}</p>
                 <p className="text-center text-sm text-ink-soft">
-                  {GARANTIA}. El cobro y el reembolso los gestiona Hotmart.
+                  Pago seguro con Hotmart. Cancelas cuando quieras.
                 </p>
               </div>
             </div>
@@ -118,15 +118,15 @@ export default function Pricing() {
             step={2}
             icon={CreditCardIcon}
             day="Al terminar la prueba"
-            title="Hotmart cobra"
-            body={`${formatUSD(selected.cents)} ${selected.periodLabel}, según el plan que elijas, si sigues. El cobro lo gestiona Hotmart.`}
+            title="Sigues con tu plan"
+            body={`${formatUSD(selected.cents)} ${selected.periodLabel}, según el plan que elijas, si decides seguir.`}
           />
           <TimelineStep
             step={3}
             icon={ShieldCheckIcon}
             day={GARANTIA}
             title="Si no te convence"
-            body="Pides el reembolso dentro de ese plazo. Lo gestiona Hotmart."
+            body="Pides el reembolso dentro de ese plazo."
           />
         </ol>
       </section>

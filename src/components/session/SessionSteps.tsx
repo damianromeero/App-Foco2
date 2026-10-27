@@ -131,7 +131,7 @@ export function ReflectionStep({ onDone }: { onDone: (value: Reflection | null) 
       />
 
       <Segmented
-        legend="¿Cuánto tiempo has usado el móvil hoy, aproximadamente?"
+        legend="¿Cuánto tiempo usaste el celular hoy, aproximadamente?"
         options={PHONE_OPTIONS}
         value={phoneUse}
         onChange={setPhoneUse}

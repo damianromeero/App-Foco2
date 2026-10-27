@@ -164,7 +164,7 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
         heading: 'No es un dispositivo médico',
         paragraphs: [
           `${plantilla.nombre} no diagnostica, trata ni previene ninguna enfermedad ni trastorno, incluido el TDAH, el deterioro cognitivo o la demencia.`,
-          'Una aplicación en el móvil no estimula el cerebro. Los juegos entrenan tareas de atención dentro de la aplicación.',
+          'Una aplicación en el celular no estimula el cerebro. Los juegos entrenan tareas de atención dentro de la aplicación.',
         ],
       },
       {

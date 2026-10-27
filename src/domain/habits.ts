@@ -18,7 +18,7 @@ export const HABITS: readonly HabitDef[] = [
   },
   {
     id: 'movil-fuera',
-    title: 'Aleja el móvil mientras trabajas',
+    title: 'Aleja el celular mientras trabajas',
     detail: 'Déjalo boca abajo, fuera de la mesa, durante una tarea concreta.',
   },
   {
@@ -38,7 +38,7 @@ export const HABITS: readonly HabitDef[] = [
   },
   {
     id: 'cerrar-pensamiento',
-    title: 'Termina el pensamiento antes de mirar el móvil',
+    title: 'Termina el pensamiento antes de mirar el celular',
     detail: 'Acaba la frase o la idea que tienes entre manos antes de coger el teléfono.',
   },
 ];

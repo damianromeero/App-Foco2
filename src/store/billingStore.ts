@@ -19,8 +19,7 @@ export const useBillingStore = create<BillingCache>()((set) => ({
       const snapshot = await billing.getSubscription();
       set({ snapshot, loaded: true, error: null });
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'No hemos podido leer tu suscripción.';
+      const message = error instanceof Error ? error.message : 'No pudimos leer tu suscripción.';
       set({ loaded: true, error: message });
     }
   },

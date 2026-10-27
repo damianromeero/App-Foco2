@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router';
 import { GAMES } from '../../domain/games/registry';
 import {
   ANNUAL_BONUS,
+  etiquetaAhorroAnual,
   PLANS,
   TRIAL_DAYS,
   formatUSD,
@@ -65,7 +66,7 @@ export const SIN_COBRO_HOY =
   'No te cobran hoy. El primer cobro llega al terminar la prueba, si sigues.';
 
 /**
- * Tarjeta de plan seleccionable. El anual va con borde dorado y «Mejor precio»: es el recomendado y el único elemento
+ * Tarjeta de plan seleccionable. El anual va con borde dorado y su ahorro («Ahorras 33 %»): es el recomendado y el único elemento
  * dorado fuera de Premium. Muestra su equivalente mensual; el mensual se ve con su precio completo.
  */
 export function PlanOption({
@@ -105,7 +106,7 @@ export function PlanOption({
             {checked && <CheckIcon weight="bold" className="size-4" />}
           </span>
         </span>
-        {annual && <Badge tone="premium">Mejor precio</Badge>}
+        {annual && <Badge tone="premium">{etiquetaAhorroAnual()}</Badge>}
         {/* El anual se lee como su equivalente mensual, con el total del año siempre a la vista. */}
         <span className="mt-auto flex flex-wrap items-baseline gap-x-2">
           <span className="figure text-5xl">

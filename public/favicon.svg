@@ -1,12 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Atenzo">
-  <defs>
-    <linearGradient id="a" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#6EE7B7" />
-      <stop offset="0.55" stop-color="#67E8F9" />
-      <stop offset="1" stop-color="#A78BFA" />
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="18" fill="url(#a)" />
-  <circle cx="32" cy="32" r="16" fill="none" stroke="#FFFFFF" stroke-width="5" />
-  <circle cx="32" cy="32" r="6" fill="#FDE68A" />
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Atenzo"><defs><linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#04B778"/><stop offset=".45" stop-color="#08A6BE"/><stop offset=".75" stop-color="#2E81E2"/><stop offset="1" stop-color="#7039FA"/></linearGradient></defs><rect width="64" height="64" rx="13.5" fill="url(#g)"/><path fill="#fff" d="M15.49 53.62C12.73 53.17 10.89 51.07 10.80 48.26C10.74 46.74 10.77 46.66 12.90 41.31C14.32 37.76 15.48 34.98 17.14 31.17C17.55 30.24 18.01 29.19 18.16 28.83C18.43 28.21 19.54 25.71 20.33 23.96C21.88 20.51 23.38 17.37 23.90 16.50C25.58 13.68 28.49 11.98 31.81 11.87C35.29 11.76 38.27 13.41 40.05 16.45C41.46 18.84 45.73 28.77 51.37 42.73C52.93 46.60 52.97 46.73 52.97 48.07C52.97 48.73 52.95 49.04 52.88 49.31C52.15 52.19 49.30 54.03 46.19 53.62C43.58 53.28 41.62 51.58 40.93 49.06C40.78 48.52 40.78 48.36 40.72 41.87C40.66 36.03 40.65 35.86 40.10 34.19C38.87 30.45 35.92 28.27 32.08 28.26C27.31 28.26 23.61 31.89 23.18 36.99C23.15 37.34 23.11 40.00 23.10 42.89C23.06 48.46 23.06 48.56 22.79 49.43C22.15 51.56 20.51 53.01 18.14 53.54C17.51 53.69 16.14 53.73 15.49 53.62Z"/><circle cx="31.92" cy="38.1" r="5.54" fill="#FDE68A"/></svg>

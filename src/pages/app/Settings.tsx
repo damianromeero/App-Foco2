@@ -7,7 +7,7 @@ import { Segmented, Switch } from '../../components/ui/Controls';
 import { Card, PageHeader } from '../../components/ui/Surfaces';
 import { useToast } from '../../components/ui/Toast';
 import { LEGAL_DOCUMENTS } from '../../content/legal';
-import { plantilla } from '../../config/plantilla';
+import { MARCA_ARCHIVO, plantilla } from '../../config/plantilla';
 import { env } from '../../config/env';
 import { buildExport, parseExport } from '../../data/exportData';
 import { useAppStore } from '../../store/appStore';
@@ -64,7 +64,7 @@ export default function Settings() {
   const exportData = () => {
     const state = useAppStore.getState();
     const file = buildExport(state, now);
-    downloadText(`foco-mente-mis-datos-${toDateKey(now)}.json`, file);
+    downloadText(`${MARCA_ARCHIVO}-mis-datos-${toDateKey(now)}.json`, file);
     toast.show('Tus datos se han descargado.');
   };
 
@@ -74,7 +74,7 @@ export default function Settings() {
       await deleteRemoteSessions();
     } catch {
       toast.show(
-        'No hemos podido borrar tus datos de la nube. Revisa tu conexión e inténtalo de nuevo.',
+        'No pudimos borrar tus datos de la nube. Revisa tu conexión e inténtalo de nuevo.',
       );
       return;
     }
@@ -200,7 +200,7 @@ export default function Settings() {
                 updateSettings({ haptics });
               }}
               label="Vibración al fallar"
-              description="Solo en móviles que lo permiten."
+              description="Solo en celulares que lo permiten."
             />
           </div>
         </Card>

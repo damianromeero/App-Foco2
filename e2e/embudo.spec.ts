@@ -34,7 +34,7 @@ async function desborde(page: Page): Promise<number> {
   );
 }
 
-const OBJETIVO = 'Usar menos el móvil sin darme cuenta';
+const OBJETIVO = 'Usar menos el celular sin darme cuenta';
 
 test.describe('embudo de venta @demo', () => {
   test('la portada lleva al onboarding, el onboarding al paywall y el paywall repite sus respuestas', async ({
@@ -74,7 +74,7 @@ test.describe('embudo de venta @demo', () => {
     await page.getByRole('button', { name: 'Ver planes y prueba de 7 días' }).click();
     await expect(page).toHaveURL(/\/paywall$/);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-      'Ana, tu entrenamiento de 5 minutos para notar antes cuándo te desvía el móvil.',
+      'Ana, tu entrenamiento de 5 minutos para notar antes cuándo te desvía el celular.',
     );
     await expect(page.getByText(`Tu objetivo: ${OBJETIVO}`)).toBeVisible();
 
@@ -93,7 +93,7 @@ test.describe('embudo de venta @demo', () => {
 
     // El anual va recomendado y elegido; el mensual sigue a la vista con su precio completo.
     await expect(page.getByRole('radio', { name: /Anual/ })).toBeChecked();
-    await expect(page.getByText('Mejor precio')).toBeVisible();
+    await expect(page.getByText('Ahorras 33 %')).toBeVisible();
     await expect(page.getByText('US$3,33', { exact: true })).toBeVisible();
     await expect(page.getByText('US$39,90 al año · cuatro meses gratis')).toBeVisible();
     await expect(page.getByRole('radio', { name: /Mensual/ })).not.toBeChecked();

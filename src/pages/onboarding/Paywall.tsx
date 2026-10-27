@@ -168,8 +168,8 @@ export default function Paywall() {
             <CompraPremium plan={plan} />
             <p className="text-center text-base font-semibold">{SIN_COBRO_HOY}</p>
             <p className="text-center text-sm text-ink-soft">
-              Después, {formatUSD(selected.cents)} {selected.periodLabel}. {GARANTIA}. El cobro y el
-              reembolso los gestiona Hotmart.
+              Después, {formatUSD(selected.cents)} {selected.periodLabel}. {GARANTIA}. Pago seguro
+              con Hotmart.
             </p>
           </div>
         </section>

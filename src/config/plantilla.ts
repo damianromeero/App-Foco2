@@ -55,3 +55,11 @@ export const plantilla = {
 
 /** Texto de la garantía. Es el mismo en toda la app: cámbialo solo cambiando `garantiaDias`. */
 export const GARANTIA = `Garantía de ${plantilla.garantiaDias} días`;
+
+/** Nombre de la marca para archivos descargados, sin tildes ni espacios (p. ej. «atenzo»). */
+export const MARCA_ARCHIVO = plantilla.nombre
+  .normalize('NFD')
+  .replace(/[̀-ͯ]/g, '')
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-|-$/g, '');

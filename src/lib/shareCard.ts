@@ -66,7 +66,7 @@ export function renderShareCard(input: ShareCardInput): Promise<Blob> {
 
   ctx.fillStyle = PAPER;
   ctx.font = `600 52px ${FONT}`;
-  const streakText = input.streak === 1 ? '1 día seguido' : `${input.streak} días seguidos`;
+  const streakText = input.streak === 1 ? '1 semana seguida' : `${input.streak} semanas seguidas`;
   ctx.fillText(streakText, 120, 400);
 
   const slotWidth = (WIDTH - 200) / 7;

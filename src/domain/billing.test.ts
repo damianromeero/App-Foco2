@@ -2,6 +2,8 @@ import { describeBilling } from './billing';
 import type { SubscriptionSnapshot } from './model';
 import {
   ANNUAL_BONUS,
+  ahorroAnualPorcentaje,
+  etiquetaAhorroAnual,
   PLANS,
   TRIAL_DAYS,
   formatUSD,
@@ -146,6 +148,11 @@ describe('precios', () => {
     expect(formatUSD(PLANS.monthly.cents)).toBe('US$4,99');
     expect(formatUSD(PLANS.annual.cents)).toBe('US$39,90');
     expect(formatUSD(0)).toBe('US$0,00');
+  });
+
+  it('el anual ahorra un 33 % frente a doce mensualidades', () => {
+    expect(ahorroAnualPorcentaje()).toBe(33);
+    expect(etiquetaAhorroAnual()).toBe('Ahorras 33 %');
   });
 
   it('la prueba gratuita dura 7 días', () => {

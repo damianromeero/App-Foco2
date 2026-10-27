@@ -11,7 +11,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'og-image.png'],
+      includeAssets: ['favicon.svg', 'favicon-48.png', 'apple-touch-icon.png', 'og-image.png'],
       manifest: {
         name: 'Atenzo: tu entrenamiento diario de atención',
         short_name: 'Atenzo',

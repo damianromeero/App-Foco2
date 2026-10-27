@@ -2,7 +2,6 @@ import { useState, type CSSProperties, type ReactNode } from 'react';
 import { Link } from 'react-router';
 import { BarChart, LineChart, type BarDatum, type LinePoint } from '../../components/charts/Charts';
 import { LinkButton } from '../../components/ui/Button';
-import { Tabs } from '../../components/ui/Controls';
 import { Badge, Card, Notice, PageHeader, ProgressBar } from '../../components/ui/Surfaces';
 import {
   accuracyTrend,
@@ -181,12 +180,22 @@ export default function Progress() {
           </div>
           {entitlement === 'premium' ? (
             <div className="mt-5 space-y-5">
-              <Tabs
-                label="Elige un juego"
-                options={GAMES.map((game) => ({ value: game.id, label: game.name }))}
-                value={gameTab}
-                onChange={setGameTab}
-              />
+              <label className="block space-y-2">
+                <span className="text-base font-semibold">Elige un juego</span>
+                <select
+                  value={gameTab}
+                  onChange={(event) => {
+                    setGameTab(event.target.value as typeof gameTab);
+                  }}
+                  className="glass min-h-11 w-full rounded-xl px-4 text-base ring-1 ring-inset ring-line"
+                >
+                  {GAMES.map((game) => (
+                    <option key={game.id} value={game.id}>
+                      {game.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
               {trendPoints.length > 0 ? (
                 <LineChart
                   points={trendPoints}
@@ -220,11 +229,11 @@ export default function Progress() {
       <Enter delay={420}>
         <Card labelledBy="movil">
           <h2 id="movil" className="text-xl">
-            Tu uso del móvil, según tú
+            Tu uso del celular, según tú
           </h2>
           {phoneTotal === 0 ? (
             <p className="mt-2 text-base text-ink-soft">
-              Cuando termines una sesión, puedes contarnos cuánto usaste el móvil ese día.
+              Cuando termines una sesión, puedes contarnos cuánto usaste el celular ese día.
             </p>
           ) : (
             <ul className="mt-5 space-y-4">
@@ -235,7 +244,7 @@ export default function Progress() {
             </ul>
           )}
           <p className="mt-5 text-sm text-ink-soft">
-            Es tu estimación. No leemos los datos de tu móvil.
+            Es tu estimación. No leemos los datos de tu celular.
           </p>
         </Card>
       </Enter>

@@ -4,7 +4,7 @@ import { Link, NavLink, Outlet, useLocation } from 'react-router';
 import { Logo } from '../components/brand/Logo';
 import { LinkButton } from '../components/ui/Button';
 import { plantilla } from '../config/plantilla';
-import { TRIAL_DAYS } from '../domain/pricing';
+import { CTA_PRUEBA } from '../content/copy';
 import { env } from '../config/env';
 import { LEGAL_DOCUMENTS } from '../content/legal';
 
@@ -104,7 +104,7 @@ function PublicHeader() {
               id="cta-cabecera"
               data-evento="inicio-gratis"
             >
-              Prueba {TRIAL_DAYS} días gratis
+              {CTA_PRUEBA}
             </LinkButton>
           </div>
         </div>
@@ -125,7 +125,7 @@ function PublicHeader() {
               ))}
             </ul>
             <LinkButton to="/onboarding" size="lg" className="mt-2 w-full" onClick={close}>
-              Prueba {TRIAL_DAYS} días gratis
+              {CTA_PRUEBA}
             </LinkButton>
           </nav>
         )}
@@ -162,7 +162,7 @@ export function PublicLayout() {
           <div className="space-y-4">
             <Logo />
             <p className="max-w-xs text-sm leading-relaxed text-ink-soft">
-              Entrena tu atención en 5 minutos. Sin culpa, sin trampas, sin prisa.
+              {plantilla.eslogan} Sin culpa, sin trampas, sin prisa.
             </p>
             <p className="eyebrow">Sin anuncios · Sin cookies de terceros</p>
           </div>

@@ -45,7 +45,7 @@ const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const SPRING = { type: 'spring', stiffness: 420, damping: 32, mass: 0.8 } as const;
 const REMEMBER = [
   COPY.localMode,
-  'Un día de descanso cada semana protege tu racha.',
+  'Tu racha cuenta semanas: con 3 días de entrenamiento a la semana, sigue viva.',
   'Lo que medimos es tu rendimiento en la app. No prometemos más.',
 ];
 /** La sesión diaria tal como la vive la persona: lo mismo que muestra «Cómo funciona» en la portada. */

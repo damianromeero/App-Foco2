@@ -1,58 +1,57 @@
-import { addDays, diffDays, type DateKey } from './dates';
-
-/** Un día de descanso cada 7 días: un día sin entrenar no rompe la racha si ya descansaste esa semana. */
-export const REST_INTERVAL_DAYS = 7;
-
-export interface StreakInfo {
-  /** Días seguidos con sesión completa. Los días de descanso no suman, pero no rompen la racha. */
-  current: number;
-  best: number;
-  /** Días sin sesión que quedaron protegidos por el descanso. */
-  protectedDays: DateKey[];
-  /** Hay un día de descanso disponible ahora mismo. */
-  restAvailable: boolean;
-}
+import { addDays, diffDays, weekStartKey, type DateKey } from './dates';
 
 /**
- * Calcula la racha con una simulación día a día desde la primera sesión.
- * Hoy no cuenta como fallo mientras no termine: aún se puede completar.
+ * Racha semanal: cuenta semanas, no días. Una semana (de lunes a domingo) queda cumplida con sesiones completas en
+ * al menos WEEKLY_GOAL_DAYS días distintos, los que a la persona le vengan bien. Faltar un día, o varios, no rompe
+ * nada mientras la semana llegue a la meta. La semana en curso nunca rompe la racha: aún se puede completar.
  */
+export const WEEKLY_GOAL_DAYS = 3;
+
+export interface StreakInfo {
+  /** Semanas seguidas cumplidas. Incluye la semana en curso solo si ya está cumplida. */
+  current: number;
+  best: number;
+  /** Días distintos con sesión completa en la semana en curso. */
+  weekDays: number;
+  /** La semana en curso ya llegó a la meta. */
+  weekGoalMet: boolean;
+  /** Días que quedan en la semana en curso, hoy incluido. */
+  daysLeftInWeek: number;
+}
+
+/** Calcula la racha semanal con las semanas desde la primera sesión hasta la semana de hoy. */
 export function computeStreak(todayKey: DateKey, completedKeys: ReadonlySet<DateKey>): StreakInfo {
-  if (completedKeys.size === 0) {
-    return { current: 0, best: 0, protectedDays: [], restAvailable: true };
+  const currentWeek = weekStartKey(todayKey);
+  const daysLeftInWeek = 7 - diffDays(todayKey, currentWeek);
+
+  const daysPerWeek = new Map<DateKey, number>();
+  for (const key of completedKeys) {
+    if (key > todayKey) continue;
+    const week = weekStartKey(key);
+    daysPerWeek.set(week, (daysPerWeek.get(week) ?? 0) + 1);
   }
 
-  let earliest = todayKey;
-  for (const key of completedKeys) {
-    if (key < earliest) earliest = key;
+  const weekDays = daysPerWeek.get(currentWeek) ?? 0;
+  const weekGoalMet = weekDays >= WEEKLY_GOAL_DAYS;
+  if (daysPerWeek.size === 0) {
+    return { current: 0, best: 0, weekDays, weekGoalMet, daysLeftInWeek };
+  }
+
+  let earliest = currentWeek;
+  for (const week of daysPerWeek.keys()) {
+    if (week < earliest) earliest = week;
   }
 
   let run = 0;
   let best = 0;
-  let lastRest: DateKey | null = null;
-  const protectedDays: DateKey[] = [];
-
-  for (let day = earliest; day <= todayKey; day = addDays(day, 1)) {
-    if (completedKeys.has(day)) {
+  for (let week = earliest; week <= currentWeek; week = addDays(week, 7)) {
+    if ((daysPerWeek.get(week) ?? 0) >= WEEKLY_GOAL_DAYS) {
       run += 1;
       best = Math.max(best, run);
-      continue;
-    }
-    if (day === todayKey) break;
-
-    const restFree = lastRest === null || diffDays(day, lastRest) >= REST_INTERVAL_DAYS;
-    if (restFree) {
-      lastRest = day;
-      protectedDays.push(day);
-    } else {
+    } else if (week !== currentWeek) {
       run = 0;
     }
   }
 
-  return {
-    current: run,
-    best,
-    protectedDays,
-    restAvailable: lastRest === null || diffDays(todayKey, lastRest) >= REST_INTERVAL_DAYS,
-  };
+  return { current: run, best, weekDays, weekGoalMet, daysLeftInWeek };
 }

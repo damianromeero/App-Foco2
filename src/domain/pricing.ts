@@ -35,6 +35,16 @@ export function mesesGratisAnual(): number {
   return Math.round(12 - PLANS.annual.cents / PLANS.monthly.cents);
 }
 
+/** Porcentaje que ahorra el plan anual frente a doce mensualidades, redondeado (con los precios actuales, 33). */
+export function ahorroAnualPorcentaje(): number {
+  return Math.round((1 - PLANS.annual.cents / (PLANS.monthly.cents * 12)) * 100);
+}
+
+/** Etiqueta del plan anual en las tarjetas de precios. */
+export function etiquetaAhorroAnual(): string {
+  return `Ahorras ${ahorroAnualPorcentaje()} %`;
+}
+
 /** Formato de dólares: US$4,99 (coma decimal, dos cifras, símbolo delante). */
 export function formatUSD(cents: number): string {
   const amount = new Intl.NumberFormat('es-ES', {

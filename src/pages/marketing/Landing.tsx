@@ -27,6 +27,7 @@ import { CLAIMS } from '../../content/science';
 import { GARANTIA, plantilla } from '../../config/plantilla';
 import {
   ANNUAL_BONUS,
+  etiquetaAhorroAnual,
   PLANS,
   TRIAL_DAYS,
   formatUSD,
@@ -196,8 +197,8 @@ function StepIconChip({ index }: { index: number }) {
 
 export default function Landing() {
   useDocumentMeta({
-    title: 'Entrena tu atención en 5 minutos',
-    description: `Cinco minutos al día con juegos breves para volver a tu tarea sin perder el hilo. Sin anuncios, sin cookies de terceros, sin culpa. ${GARANTIA}.`,
+    title: plantilla.eslogan.replace(/\.$/, ''),
+    description: `${plantilla.eslogan} Cinco minutos al día con juegos breves para volver a tu tarea sin perder el hilo. Prueba de ${TRIAL_DAYS} días. ${GARANTIA}.`,
   });
 
   // Medición anónima (apagada por defecto): una visita a la portada. Sin datos de la persona.
@@ -532,7 +533,7 @@ export default function Landing() {
                         {formatUSD(PLANS.annual.cents)} al año · {ANNUAL_BONUS}
                       </span>
                     </p>
-                    <Badge tone="premium">Mejor precio</Badge>
+                    <Badge tone="premium">{etiquetaAhorroAnual()}</Badge>
                   </div>
                 </div>
               </div>
@@ -557,7 +558,7 @@ export default function Landing() {
             {COPY.hero.primary}
           </LinkButton>
           <p className="text-ink-soft">
-            Prueba de {TRIAL_DAYS} días. {GARANTIA}. El cobro y el reembolso los gestiona Hotmart.
+            Prueba de {TRIAL_DAYS} días. {GARANTIA}. Pago seguro con Hotmart.
           </p>
         </div>
       </section>

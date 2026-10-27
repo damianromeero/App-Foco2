@@ -6,7 +6,7 @@ import { activityGrid, type ActivityDay } from '../../domain/activity';
 import { parseDateKey, toDateKey } from '../../domain/dates';
 import { formatUSD } from '../../domain/pricing';
 import { streakMilestone } from '../../domain/milestones';
-import { computeStreak } from '../../domain/streak';
+import { computeStreak, WEEKLY_GOAL_DAYS } from '../../domain/streak';
 import { useAppStore } from '../../store/appStore';
 import { useBillingView } from '../../hooks/useBillingView';
 import { useDocumentMeta } from '../../hooks/useDocumentMeta';
@@ -41,12 +41,14 @@ export default function Today() {
   const paymentIssue = billing.phase === 'pago-pendiente';
   const trialDays = billing.trialDaysLeft ?? 0;
 
-  const streakMessage =
-    streak.current === 0
+  const faltan = WEEKLY_GOAL_DAYS - streak.weekDays;
+  const streakMessage = streak.weekGoalMet
+    ? `Semana cumplida: ${plural(streak.weekDays, 'día', 'días')} de entrenamiento. Lo que sumes ahora es extra.`
+    : streak.current === 0 && streak.weekDays === 0
       ? COPY.streakEmpty
-      : streak.restAvailable
-        ? 'Tienes un día de descanso disponible esta semana.'
-        : 'Ya usaste tu día de descanso de esta semana.';
+      : faltan <= streak.daysLeftInWeek
+        ? `Esta semana llevas ${streak.weekDays} de ${WEEKLY_GOAL_DAYS} días. Te ${streak.daysLeftInWeek === 1 ? 'queda' : 'quedan'} ${plural(streak.daysLeftInWeek, 'día', 'días')} para completarla.`
+        : 'Esta semana va más tranquila, y está bien. El lunes empieza otra.';
 
   return (
     <div className="flex min-h-[calc(100dvh-9rem)] flex-col gap-6">
@@ -54,12 +56,12 @@ export default function Today() {
         <h1 className="text-[2.7rem] leading-[1.02] break-words sm:text-6xl">
           {displayName ? (
             <>
-              Bienvenido,
+              Hola,
               <br />
               <span className="pixel-accent">{displayName}</span>
             </>
           ) : (
-            'Bienvenido.'
+            'Hola.'
           )}
         </h1>
       </header>
@@ -82,7 +84,7 @@ export default function Today() {
       {paymentIssue && (
         <Notice
           tone="accent"
-          title="No hemos podido cobrar tu última renovación."
+          title="No pudimos cobrar tu última renovación."
           action={
             <LinkButton to="/cuenta" variant="secondary" size="md">
               Revisar pago
@@ -106,13 +108,14 @@ export default function Today() {
             <CountUp value={streak.current} />
           </p>
           <p className="pb-3 text-base text-ink-soft">
-            {streak.current === 1 ? 'día seguido' : 'días seguidos'}
+            {streak.current === 1 ? 'semana seguida' : 'semanas seguidas'}
           </p>
         </div>
+        <WeekGoal done={streak.weekDays} />
         <p className="mt-3 text-base text-ink-soft">{streakMessage}</p>
         {milestone !== null && (
-          <p className="mt-2 text-sm font-medium text-ink">
-            Hito alcanzado: {milestone} días seguidos.
+          <p className="mt-2 text-base font-medium text-ink">
+            Hito alcanzado: {milestone} semanas seguidas.
           </p>
         )}
 
@@ -121,8 +124,10 @@ export default function Today() {
         <p className="mt-5 text-base text-ink-soft">
           {todayCount > 0
             ? `Hoy: ${plural(todayCount, 'actividad completada', 'actividades completadas')}.`
-            : 'Hoy todavía no has entrenado.'}{' '}
-          <span className="text-ink-soft/70">Mejor racha: {streak.best}.</span>
+            : 'Hoy todavía no entrenas.'}{' '}
+          <span className="text-ink-soft/70">
+            Mejor racha: {plural(streak.best, 'semana', 'semanas')}.
+          </span>
         </p>
       </section>
 
@@ -139,6 +144,26 @@ export default function Today() {
           {next.label}
         </LinkButton>
       </section>
+    </div>
+  );
+}
+
+/** Meta de la semana: una marca por cada día de entrenamiento que pide la racha. */
+function WeekGoal({ done }: { done: number }) {
+  return (
+    <div className="mt-4 flex items-center gap-3">
+      <ol className="flex gap-1.5" aria-hidden="true">
+        {Array.from({ length: WEEKLY_GOAL_DAYS }, (_, index) => (
+          <li
+            key={index}
+            className={`h-2.5 w-8 rounded-full ${index < done ? 'fill-brand' : 'bg-ink/[0.12]'}`}
+          />
+        ))}
+      </ol>
+      <p className="text-base text-ink-soft">
+        <span className="sr-only">Meta de la semana: </span>
+        {Math.min(done, WEEKLY_GOAL_DAYS)} de {WEEKLY_GOAL_DAYS} días
+      </p>
     </div>
   );
 }
@@ -172,10 +197,11 @@ function ActivityMap({ days }: { days: ActivityDay[] }) {
         return (
           <li
             key={day.dateKey}
-            aria-label={label}
             title={label}
             className={`h-6 w-full rounded-[6px] ${cellClass[day.level]} ${isToday ? 'ring-1 ring-ink/80 ring-offset-2 ring-offset-canvas' : ''}`}
-          />
+          >
+            <span className="sr-only">{label}</span>
+          </li>
         );
       })}
     </ol>

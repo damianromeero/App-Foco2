@@ -27,12 +27,12 @@ export const PACT: PactItem[] = [
       'La prueba la gestiona Hotmart: el primer cobro llega al terminarla, si sigues. Lo verás en Precios.',
   },
   {
-    promise: 'Ni culpa ni racha perdida.',
+    promise: 'Ni culpa ni racha perdida por un mal día.',
     howToCheck:
-      'Un día de descanso cada siete días protege la racha de forma automática. Los mensajes nunca te dicen que has fallado.',
+      'La racha cuenta semanas, no días: con 3 días de entrenamiento en la semana, los que te vengan bien, sigue viva. Los mensajes nunca te dicen que fallaste.',
   },
   {
-    promise: 'La app no te envía avisos al móvil.',
+    promise: 'La app no te envía avisos al celular.',
     howToCheck:
       'No pide permiso de notificaciones ni envía avisos. Lo verás en los permisos de tu navegador.',
   },

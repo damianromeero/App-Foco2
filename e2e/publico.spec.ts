@@ -44,7 +44,9 @@ test.describe('páginas públicas', () => {
     ).toBeVisible();
     await expect(page.getByText('Sin anuncios', { exact: true })).toBeVisible();
     await expect(page.getByText('Lo que medimos y lo que no prometemos')).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Arma tu plan gratis' }).first()).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: 'Empieza tu prueba de 7 días' }).first(),
+    ).toBeVisible();
 
     expect(external, `peticiones externas: ${external.join(', ')}`).toHaveLength(0);
     expect(errors).toHaveLength(0);
@@ -70,7 +72,7 @@ test.describe('páginas públicas', () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Prueba 7 días');
     await expect(page.getByText('US$4,99').first()).toBeVisible();
     await expect(page.getByText('US$39,90').first()).toBeVisible();
-    await expect(page.getByText('Prueba de 7 días').first()).toBeVisible();
+    await expect(page.locator('main').getByText('Prueba de 7 días').first()).toBeVisible();
     await expect(page.getByText('cuatro meses gratis').first()).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Si no te convence' })).toBeVisible();
     await expect(page.getByText('Lo que pasa después.')).toBeVisible();

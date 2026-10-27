@@ -3,6 +3,7 @@ import { LinkButton, Button } from '../../components/ui/Button';
 import { CountUp } from '../../components/ui/CountUp';
 import { Badge, ProgressBar } from '../../components/ui/Surfaces';
 import { useToast } from '../../components/ui/Toast';
+import { MARCA_ARCHIVO } from '../../config/plantilla';
 import { COPY } from '../../content/copy';
 import { weeklyActivity } from '../../domain/attention';
 import { sessionsInWeek } from '../../domain/challenges';
@@ -91,7 +92,7 @@ export default function Result() {
         sessionsThisWeek: thisWeek.length,
         accuracy: weekAccuracy,
       });
-      const file = new File([blob], 'mi-semana-foco-mente.png', { type: 'image/png' });
+      const file = new File([blob], `mi-semana-${MARCA_ARCHIVO}.png`, { type: 'image/png' });
       const nav: Partial<Navigator> = navigator;
       if (nav.canShare?.({ files: [file] })) {
         await navigator.share({
@@ -100,7 +101,7 @@ export default function Result() {
           text: COPY.hero.lead,
         });
       } else {
-        downloadBlob('mi-semana-foco-mente.png', blob);
+        downloadBlob(`mi-semana-${MARCA_ARCHIVO}.png`, blob);
         toast.show('Imagen descargada.');
       }
     } catch (error) {
@@ -173,15 +174,15 @@ export default function Result() {
           <p className="figure text-[2.6rem]">
             <CountUp value={streak.current} />
           </p>
-          <p className="mt-2 text-xs text-ink-soft">
-            {streak.current === 1 ? 'día seguido' : 'días seguidos'}
+          <p className="mt-2 text-base text-ink-soft">
+            {streak.current === 1 ? 'semana seguida' : 'semanas seguidas'}
           </p>
         </div>
         <div className="glass ring-gradient rounded-2xl p-5">
           <p className="figure text-[2.6rem]">
             <CountUp value={thisWeek.length} />
           </p>
-          <p className="mt-2 text-xs text-ink-soft">
+          <p className="mt-2 text-base text-ink-soft">
             {thisWeek.length === 1 ? 'sesión esta semana' : 'sesiones esta semana'}
           </p>
         </div>

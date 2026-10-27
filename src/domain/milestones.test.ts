@@ -3,9 +3,9 @@ import { streakMilestone, STREAK_MILESTONES } from './milestones';
 
 describe('streakMilestone', () => {
   it('devuelve el hito solo cuando la racha es exactamente esa cifra', () => {
-    expect(streakMilestone(7)).toBe(7);
-    expect(streakMilestone(6)).toBeNull();
-    expect(streakMilestone(8)).toBeNull();
+    expect(streakMilestone(4)).toBe(4);
+    expect(streakMilestone(3)).toBeNull();
+    expect(streakMilestone(5)).toBeNull();
   });
 
   it('no hay hitos para una racha de cero o sin ordenar', () => {

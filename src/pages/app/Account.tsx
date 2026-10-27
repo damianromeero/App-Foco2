@@ -10,7 +10,7 @@ import { Button, LinkButton } from '../../components/ui/Button';
 import { Dialog } from '../../components/ui/Dialog';
 import { Badge, Card, Notice, PageHeader } from '../../components/ui/Surfaces';
 import { useToast } from '../../components/ui/Toast';
-import { GARANTIA } from '../../config/plantilla';
+import { GARANTIA, MARCA_ARCHIVO } from '../../config/plantilla';
 import { COPY } from '../../content/copy';
 import { ANNUAL_BONUS, PLANS, formatUSD, monthlyEquivalentCents } from '../../domain/pricing';
 import { formatFullDate } from '../../lib/format';
@@ -120,7 +120,7 @@ export default function Account() {
   };
 
   const exportData = () => {
-    downloadText(`foco-mente-mis-datos-${toDateKey(now)}.json`, buildExport(state(), now));
+    downloadText(`${MARCA_ARCHIVO}-mis-datos-${toDateKey(now)}.json`, buildExport(state(), now));
   };
 
   const plan = snapshot.plan ? PLANS[snapshot.plan] : null;
@@ -148,7 +148,7 @@ export default function Account() {
             <p className="text-lg text-ink">{PHASE_TEXT[view.phase]}</p>
 
             {billingError && (
-              <Notice tone="accent" title="No hemos podido leer tu suscripción.">
+              <Notice tone="accent" title="No pudimos leer tu suscripción.">
                 {billingError}
               </Notice>
             )}
