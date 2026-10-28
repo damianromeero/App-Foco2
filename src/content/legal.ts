@@ -71,7 +71,7 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
       {
         heading: '4. Proveedores',
         paragraphs: [
-          'Hotmart para la compra, el cobro y los reembolsos. Supabase para la base de datos, las cuentas y el acceso. Un servicio de correo para enviarte el enlace de entrada: [COMPLETAR: proveedor del correo de entrada]. Alojamiento estático del sitio. [COMPLETAR: región de alojamiento y acuerdos de tratamiento de datos].',
+          'Hotmart para la compra, el cobro y los reembolsos. Supabase para la base de datos, las cuentas y el acceso. Resend para enviarte los correos de la app: el enlace de entrada y los avisos de tu compra, de un cobro atrasado, de un reembolso o de una cancelación. Alojamiento estático del sitio. [COMPLETAR: región de alojamiento y acuerdos de tratamiento de datos].',
         ],
       },
       {

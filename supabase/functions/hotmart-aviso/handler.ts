@@ -30,6 +30,8 @@ import {
   type SuscripcionDeAcceso,
   type UltimoCobroAcceso,
 } from '../_shared/acceso.ts';
+import { construirCorreo, type DatosCorreo, type TipoCorreo } from '../_shared/correos.ts';
+import type { MensajeCorreo } from '../_shared/email.ts';
 import {
   analizarAviso,
   CABECERA_TOKEN_HOTMART,
@@ -59,6 +61,10 @@ export interface EntornoAviso {
   HOTMART_HOTTOK?: string | undefined;
   SUPABASE_URL?: string | undefined;
   SUPABASE_SERVICE_ROLE_KEY?: string | undefined;
+  /** Dirección pública de la app (https://appatenzo.com). Solo para los enlaces de los correos. */
+  APP_URL?: string | undefined;
+  /** Correo de soporte: a él llegan las respuestas. Opcional. */
+  EMAIL_RESPUESTA?: string | undefined;
 }
 
 export interface DependenciasAviso {
@@ -68,6 +74,16 @@ export interface DependenciasAviso {
   ahora?: () => number;
   /** Ofertas de Hotmart. Por defecto OFERTAS_HOTMART (_shared/hotmart.ts). Las pruebas pasan unas inventadas. */
   ofertas?: Ofertas;
+  /**
+   * Envío de correos. Sin él, la función no envía nada (las pruebas del aviso no mandan correos). En producción
+   * es sendEmail (_shared/email.ts). Un fallo se registra y nunca cambia la respuesta a Hotmart.
+   */
+  enviarCorreo?: (mensaje: MensajeCorreo) => Promise<boolean>;
+}
+
+/** Un correo que se enviará cuando el aviso se haya aplicado. Se guarda aparte del correo para no mezclarlo con datos. */
+interface Notificacion extends DatosCorreo {
+  correo: string;
 }
 
 function responder(
@@ -102,6 +118,8 @@ interface Contexto {
   ahoraIso: string;
   /** Momento del guardado, en milisegundos (para saber si un acceso con fin ya venció). */
   ahoraMs: number;
+  /** Correos que este aviso ha provocado. Se llenan solo cuando el aviso cambia algo; se envían tras aplicarlo. */
+  notificaciones: Notificacion[];
 }
 
 /** Hace una petición a PostgREST y lanza ErrorAviso (sin datos personales) si la base no la acepta. */
@@ -396,6 +414,9 @@ async function aplicarCompraAprobada(
     'compra-no-guardada',
   );
   const nueva = filasEscritas(insercion, 'compra-no-guardada').length > 0;
+  // Solo una compra nueva recibe la bienvenida: una reactivación no es una compra nueva.
+  if (nueva)
+    contexto.notificaciones.push({ tipo: 'bienvenida', correo: compra.correo, plan: compra.plan });
   // Reactivación: una compra mantenida (Hotmart reintentaba el cobro) pasa a aprobada solo con un aviso más reciente.
   const reactivada =
     filasEscritas(
@@ -444,6 +465,7 @@ async function aplicarCompraEstado(
   const cambiadas = filasEscritas(cambio, 'estado-no-guardado');
   if (cambiadas.length > 0) {
     await cobrosDe(contexto, aviso, cambiadas);
+    notificarCambioDeEstado(contexto, aviso, cambiadas);
     return 'aplicado';
   }
   // Nada cambió: o la compra no existe, o el aviso es más antiguo (o igual) que lo guardado.
@@ -483,10 +505,34 @@ async function aplicarCompraEstado(
   );
   if (tardias.length > 0) {
     await cobrosDe(contexto, aviso, tardias);
+    notificarCambioDeEstado(contexto, aviso, tardias);
     return 'aplicado';
   }
   // Guardado: queda para la compra que llegue («sin-compra»). No guardado: el aviso era más antiguo que lo guardado.
   return guardado ? 'sin-compra' : 'obsoleto';
+}
+
+/**
+ * Correo de un cambio de estado de compra. Una cancelación de compra con suscripción no envía nada: su correo lo manda
+ * la cancelación de la suscripción, y así no llega uno por cada aviso de la misma baja.
+ */
+function notificarCambioDeEstado(
+  contexto: Contexto,
+  aviso: Extract<Clasificado, { resultado: 'compra-estado' }>,
+  filas: readonly { correo: string | null }[],
+): void {
+  const tipo: TipoCorreo | null =
+    aviso.estado === 'mantenida'
+      ? 'pago-atrasado'
+      : aviso.estado === 'reembolsada'
+        ? 'reembolso'
+        : aviso.suscriptor === null
+          ? 'cancelacion'
+          : null;
+  if (tipo === null) return;
+  for (const correo of distintos(filas.map((fila) => fila.correo))) {
+    contexto.notificaciones.push({ tipo, correo });
+  }
 }
 
 /** Tras cambiar compras: último cobro de su suscripción y acceso de cada correo. */
@@ -563,7 +609,17 @@ async function aplicarCancelacion(
   );
   for (const correo of distintos(compras.map((fila) => fila.correo)))
     await recalcularAcceso(contexto, correo, aviso.evento, aviso.fecha);
-  return cancelada ? 'aplicado' : 'obsoleto';
+  if (cancelada) {
+    for (const correo of distintos(compras.map((fila) => fila.correo))) {
+      contexto.notificaciones.push({
+        tipo: 'cancelacion',
+        correo,
+        accesoHasta: aviso.fechaProximoCobro,
+      });
+    }
+    return 'aplicado';
+  }
+  return 'obsoleto';
 }
 
 /**
@@ -585,6 +641,39 @@ async function aplicarAviso(
     default:
       // Sin efecto en compras, suscripciones ni accesos: el aviso solo queda registrado con su propio resultado.
       return aviso.resultado;
+  }
+}
+
+/**
+ * Envía los correos que el aviso ha provocado. Nunca lanza: un fallo se registra sin el correo del comprador y la
+ * respuesta a Hotmart sigue siendo la del guardado. Sin APP_URL no se envía nada, porque los enlaces no serían válidos.
+ */
+async function enviarNotificaciones(
+  contexto: Contexto,
+  dependencias: DependenciasAviso,
+): Promise<void> {
+  const enviar = dependencias.enviarCorreo;
+  if (!enviar || contexto.notificaciones.length === 0) return;
+  const appUrl = dependencias.env.APP_URL?.trim().replace(/\/+$/, '') ?? '';
+  if (!appUrl) {
+    console.error('hotmart-aviso: falta APP_URL; no se envían correos.');
+    return;
+  }
+  const soporte = dependencias.env.EMAIL_RESPUESTA?.trim() || undefined;
+  for (const { correo, ...datos } of contexto.notificaciones) {
+    try {
+      const listo = construirCorreo(datos, { appUrl, soporte });
+      const enviado = await enviar({
+        to: correo,
+        subject: listo.asunto,
+        text: listo.texto,
+        html: listo.html,
+        ...(listo.responderA ? { replyTo: listo.responderA } : {}),
+      });
+      if (!enviado) console.error(`hotmart-aviso: no se envió un correo de tipo ${datos.tipo}.`);
+    } catch {
+      console.error(`hotmart-aviso: error al enviar un correo de tipo ${datos.tipo}.`);
+    }
   }
 }
 
@@ -652,11 +741,14 @@ export async function manejarAviso(
     config,
     ahoraIso: new Date(ahoraMs).toISOString(),
     ahoraMs,
+    notificaciones: [],
   };
 
   try {
     const estado: EstadoEvento =
       aviso.resultado === 'sin-fecha' ? 'sin-fecha' : await aplicarAviso(contexto, aviso);
+    // Antes de registrar el aviso: si el registro falla, Hotmart reintenta y el reintento sale «duplicado», sin correo doble.
+    await enviarNotificaciones(contexto, dependencias);
     await registrarEvento(contexto, aviso, estado);
     if (aviso.resultado === 'sin-fecha') {
       return fallo(

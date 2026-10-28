@@ -782,7 +782,7 @@ Lo que sigue sin comprobar y lo que queda por hacer antes de vender. Nada de la 
 - **No tiene un enlace de compra por plan.** `VITE_ENLACE_COMPRA` es uno para los dos planes (paso 7).
 - **No controla la prueba ni la garantía.** Las anuncia; las gestiona Hotmart.
 - **No procesa contracargos ni expiraciones** (tabla «Cómo se decide el acceso»).
-- **No envía correos de la app.** Solo los enlaces de entrada de Supabase.
+- **Envía sus correos con Resend.** El enlace de entrada lo envía Supabase por SMTP; los avisos de compra, cobro atrasado, reembolso y cancelación los envía `hotmart-aviso` (`supabase/functions/_shared/correos.ts`). Ver la sección de correos de la guía.
 - **Borra cuentas desde la app** con la función de base `borrar_mi_cuenta()`, solo si ejecutaste su migración (paso 3). No usa Stripe, no usa la clave de servicio y no cancela la suscripción de Hotmart.
 - **No deja entrar sin conexión.** Para entrar, la app comprueba el acceso con internet; una vez dentro, la sesión diaria sigue funcionando aunque se pierda la señal.
 - **No ofrece cambios en el panel.** Es de solo lectura ([PANEL-ADMIN.md](PANEL-ADMIN.md)).

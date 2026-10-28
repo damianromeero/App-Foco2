@@ -247,7 +247,7 @@ La base de datos decide el acceso de cada correo según el **último estado** qu
 - **No quita el acceso por un contracargo o una expiración.** Esos avisos quedan registrados y los ves en el panel, pero tienes que actuar tú.
 - **Cancelar una suscripción quita el acceso en ese momento**, no al final del periodo pagado, según cuándo avise Hotmart. Compruébalo en tu cuenta antes de vender.
 - **No controla la prueba ni la garantía.** Las anuncia; las gestiona Hotmart.
-- **No envía correos de la app.** Solo los enlaces de entrada.
+- **Envía sus correos con Resend.** El enlace de entrada y los avisos de compra, cobro atrasado, reembolso y cancelación. Hotmart también envía los suyos, según tu configuración en Hotmart.
 - **No deja entrar sin internet.** Una vez dentro, la sesión diaria sigue funcionando aunque se pierda la señal.
 - **El panel es solo de lectura.** No cambia nada. Los reembolsos y los cobros se hacen en Hotmart.
 
