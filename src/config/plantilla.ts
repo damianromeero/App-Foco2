@@ -28,15 +28,14 @@ export const plantilla = {
    */
   garantiaDias: 15,
   /**
-   * Correo de contacto que ven las personas. «correo@example.com» es solo un ejemplo: cámbialo por un correo tuyo
-   * que vayas a usar con la app. El gate (`npm run verificar`) no lo bloquea.
+   * Correo de contacto que ven las personas. Es el mismo que el de soporte (`VITE_SUPPORT_EMAIL` en el hosting).
    */
-  contactoEmail: 'correo@example.com',
+  contactoEmail: 'soporte@appatenzo.com',
   /**
-   * Correo de soporte que aparece en el diálogo «Eliminar tu cuenta». Es un ejemplo: [COMPLETAR] con el correo que
-   * atenderás de verdad. Las personas que tienen una suscripción de Hotmart lo usan para pedir ayuda al cancelarla.
+   * Correo de soporte que aparece en el diálogo «Eliminar tu cuenta». Las personas que tienen una suscripción de Hotmart
+   * lo usan para pedir ayuda al cancelarla. Recibe las respuestas de los correos de la app (reenvío a tu bandeja).
    */
-  soporteEmail: 'correo@example.com', // [COMPLETAR: correo de soporte real]
+  soporteEmail: 'soporte@appatenzo.com',
   /**
    * Servicios reales conectados. Todo en `false` = modo local, sin cuentas ni cobros.
    * `npm run verificar` no deja publicar mientras `supabase` o `pagos` estén en `false`.
