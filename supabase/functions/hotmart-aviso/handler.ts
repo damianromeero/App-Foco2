@@ -34,6 +34,7 @@ import { construirCorreo, type DatosCorreo, type TipoCorreo } from '../_shared/c
 import type { MensajeCorreo } from '../_shared/email.ts';
 import {
   analizarAviso,
+  camposDelAviso,
   CABECERA_TOKEN_HOTMART,
   tokenDelAviso,
   tokenHotmartValido,
@@ -217,7 +218,13 @@ async function registrarCobro(
     `/suscripciones_hotmart?suscriptor=eq.${codificar(suscriptor)}&fecha_cobro=lt.${codificar(fecha)}`,
     {
       metodo: 'PATCH',
-      cuerpo: { ultimo_cobro: ultimo, fecha_cobro: fecha, actualizada_en: ahoraIso },
+      cuerpo: {
+        ultimo_cobro: ultimo,
+        fecha_cobro: fecha,
+        actualizada_en: ahoraIso,
+        // El plan lo trae el cobro aprobado: un cambio de mensual a anual se refleja en el siguiente cobro.
+        ...(plan !== null ? { plan } : {}),
+      },
       prefer: 'return=minimal',
     },
     'suscripcion-no-guardada',
@@ -747,6 +754,11 @@ export async function manejarAviso(
   try {
     const estado: EstadoEvento =
       aviso.resultado === 'sin-fecha' ? 'sin-fecha' : await aplicarAviso(contexto, aviso);
+    // Diagnóstico: solo nombres de campos, nunca valores. Sirve para revisar en los registros por qué no se aplicó un aviso.
+    if (['rechazado', 'no-procesado', 'formato-no-reconocido'].includes(estado))
+      console.log(
+        `hotmart-aviso: ${estado} (${aviso.evento}). Campos: ${camposDelAviso(cuerpo).join(', ')}`,
+      );
     // Antes de registrar el aviso: si el registro falla, Hotmart reintenta y el reintento sale «duplicado», sin correo doble.
     await enviarNotificaciones(contexto, dependencias);
     await registrarEvento(contexto, aviso, estado);

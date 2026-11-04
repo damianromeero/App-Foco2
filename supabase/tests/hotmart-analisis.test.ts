@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import {
   analizarAviso,
+  camposDelAviso,
   correoDelComprador,
   EVENTO_CANCELACION_SUSCRIPCION,
   fechaDelAviso,
@@ -410,4 +411,23 @@ describe('los módulos de _shared son puros: sin API de Deno, sin npm: y sin nod
       }
     });
   }
+});
+
+describe('cambio de plan y diagnóstico de campos', () => {
+  it('SWITCH_PLAN no cambia el acceso: queda registrado', () => {
+    const aviso = analizarAviso(
+      { id: 'aviso-switch-1', creation_date: AHORA - 60_000, event: 'SWITCH_PLAN', data: {} },
+      { ahoraMs: AHORA },
+    );
+    expect(aviso.resultado).toBe('registrado');
+  });
+
+  it('camposDelAviso devuelve rutas de campos sin valores', () => {
+    const campos = camposDelAviso({
+      id: 'x',
+      data: { buyer: { email: 'persona@ejemplo.test' }, purchase: { offer: { code: 'abc' } } },
+    });
+    expect(campos).toEqual(['id', 'data.buyer.email', 'data.purchase.offer.code']);
+    expect(JSON.stringify(campos)).not.toMatch(/persona|abc/);
+  });
 });

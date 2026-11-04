@@ -37,6 +37,19 @@ export type EstadoCompra = 'aprobada' | 'mantenida' | 'reembolsada' | 'cancelada
 /** Último estado de cobro de una suscripción, para decidir el motivo de una cancelación. null = sin información. */
 export type UltimoCobro = 'aprobado' | 'impago' | 'otro';
 
+/**
+ * Nombres de los campos de un aviso (sin valores), para diagnosticar avisos que no se pueden aplicar. Nunca lleva datos
+ * personales: solo rutas como data.purchase.offer.code. Profundidad máxima 4.
+ */
+export function camposDelAviso(cuerpo: unknown, prefijo = '', nivel = 0): string[] {
+  if (!esObjeto(cuerpo) || nivel >= 4) return [];
+  return Object.keys(cuerpo).flatMap((clave) => {
+    const ruta = prefijo ? `${prefijo}.${clave}` : clave;
+    const valor = cuerpo[clave];
+    return esObjeto(valor) ? camposDelAviso(valor, ruta, nivel + 1) : [ruta];
+  });
+}
+
 /** Cabecera donde Hotmart manda el token. Es la única fuente del token. [VERIFICAR: nombre exacto en la pantalla de webhooks] */
 export const CABECERA_TOKEN_HOTMART = 'x-hotmart-hottok';
 /** Campo de primer nivel con la fecha de creación del aviso (milisegundos). [VERIFICAR: formato real] */
@@ -81,6 +94,8 @@ const SIN_EFECTO: ReadonlySet<string> = new Set([
   'BLOCKED',
   'DISPUTE',
   'PURCHASE_BILLET_PRINTED',
+  // Cambio de plan mensual/anual: no cambia el acceso. El plan nuevo se guarda en el siguiente cobro aprobado.
+  'SWITCH_PLAN',
 ]);
 
 /** Cobro atrasado: si después se cancela la suscripción, la cancelación es por impago y no da acceso. */
