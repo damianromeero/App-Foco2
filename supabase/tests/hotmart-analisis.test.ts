@@ -431,3 +431,14 @@ describe('cambio de plan y diagnóstico de campos', () => {
     expect(JSON.stringify(campos)).not.toMatch(/persona|abc/);
   });
 });
+
+describe('forma real de un aviso de Hotmart', () => {
+  it('la divisa viene en price.currency_value y se reconoce como compra aprobada', () => {
+    const aviso = compraAprobada({ transaccion: 'TRX-REAL-1' }) as Record<string, any>;
+    aviso.data.purchase.price = { value: 4.99, currency_value: 'USD' };
+    delete aviso.data.purchase.price.currency_code;
+    expect(analizarAviso(aviso, { ahoraMs: AHORA, ofertas: OFERTAS_PRUEBA }).resultado).toBe(
+      'compra-aprobada',
+    );
+  });
+});

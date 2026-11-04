@@ -385,7 +385,10 @@ export function analizarAviso(cuerpo: unknown, contexto: ContextoAnalisis): Clas
 
   const codigoOferta = textoCorto(leer(cuerpo, 'data', 'purchase', 'offer', 'code')); // [VERIFICAR: data.purchase.offer.code]
   const monto = leer(cuerpo, 'data', 'purchase', 'price', 'value'); // [VERIFICAR: data.purchase.price.value]
-  const divisa = leer(cuerpo, 'data', 'purchase', 'price', 'currency_code'); // [VERIFICAR: data.purchase.price.currency_code]
+  // Hotmart envía la divisa en price.currency_value (confirmado con un aviso real); currency_code se acepta por si cambia.
+  const divisa =
+    leer(cuerpo, 'data', 'purchase', 'price', 'currency_value') ??
+    leer(cuerpo, 'data', 'purchase', 'price', 'currency_code');
   if (!codigoOferta || !importeValido(monto) || typeof divisa !== 'string') {
     return { resultado: 'rechazado', id, evento: etiqueta, fecha };
   }
