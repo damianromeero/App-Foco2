@@ -107,6 +107,16 @@ const fallo = (
 
 const codificar = (valor: string): string => encodeURIComponent(valor);
 
+/** Texto de una ruta del aviso, o null si no existe o no es texto. Solo para diagnóstico de códigos, nunca de personas. */
+function leerTexto(cuerpo: unknown, ...ruta: string[]): string | null {
+  let actual: unknown = cuerpo;
+  for (const clave of ruta) {
+    if (typeof actual !== 'object' || actual === null) return null;
+    actual = (actual as Record<string, unknown>)[clave];
+  }
+  return typeof actual === 'string' && actual.length <= 40 ? actual : null;
+}
+
 /** Valores distintos de una lista, sin nulos ni vacíos. */
 function distintos(valores: readonly (string | null | undefined)[]): string[] {
   return [...new Set(valores.filter((v): v is string => typeof v === 'string' && v !== ''))];
@@ -755,10 +765,15 @@ export async function manejarAviso(
     const estado: EstadoEvento =
       aviso.resultado === 'sin-fecha' ? 'sin-fecha' : await aplicarAviso(contexto, aviso);
     // Diagnóstico: solo nombres de campos, nunca valores. Sirve para revisar en los registros por qué no se aplicó un aviso.
+    // Diagnóstico sin datos personales: el resultado, el código de oferta y la divisa. Los campos solo si no se aplicó.
+    const oferta = leerTexto(cuerpo, 'data', 'purchase', 'offer', 'code');
+    const divisaAviso = leerTexto(cuerpo, 'data', 'purchase', 'price', 'currency_value');
+    const estadoCompra = leerTexto(cuerpo, 'data', 'purchase', 'status');
+    console.log(
+      `hotmart-aviso: ${estado} (${aviso.evento}). status=${estadoCompra ?? '-'} oferta=${oferta ?? '-'} divisa=${divisaAviso ?? '-'}`,
+    );
     if (['rechazado', 'no-procesado', 'formato-no-reconocido'].includes(estado))
-      console.log(
-        `hotmart-aviso: ${estado} (${aviso.evento}). Campos: ${camposDelAviso(cuerpo).join(', ')}`,
-      );
+      console.log(`hotmart-aviso: campos: ${camposDelAviso(cuerpo).join(', ')}`);
     // Antes de registrar el aviso: si el registro falla, Hotmart reintenta y el reintento sale «duplicado», sin correo doble.
     await enviarNotificaciones(contexto, dependencias);
     await registrarEvento(contexto, aviso, estado);

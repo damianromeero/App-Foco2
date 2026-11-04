@@ -96,6 +96,8 @@ const SIN_EFECTO: ReadonlySet<string> = new Set([
   'PURCHASE_BILLET_PRINTED',
   // Cambio de plan mensual/anual: no cambia el acceso. El plan nuevo se guarda en el siguiente cobro aprobado.
   'SWITCH_PLAN',
+  // Cambio de la fecha de cobro: no cambia el acceso. Se registra para tener el historial.
+  'UPDATE_SUBSCRIPTION_CHARGE_DATE',
 ]);
 
 /** Cobro atrasado: si después se cancela la suscripción, la cancelación es por impago y no da acceso. */
