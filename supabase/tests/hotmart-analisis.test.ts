@@ -289,13 +289,24 @@ describe('compra aprobada: datos que faltan o no valen', () => {
     expect(analizar(compraAprobada({ oferta: 'oferta-que-no-existe' })).resultado).toBe('sin-plan');
   });
 
-  it('con los marcadores de OFERTAS_HOTMART sin sustituir, ninguna oferta se reconoce, ni siquiera el propio marcador', () => {
-    expect(OFERTAS_HOTMART.mensual).toContain('[COMPLETAR');
-    expect(OFERTAS_HOTMART.anual).toContain('[COMPLETAR');
-    expect(planDeOferta('oferta-de-prueba')).toBeNull();
-    expect(planDeOferta(OFERTAS_HOTMART.mensual)).toBeNull();
-    expect(planDeOferta(OFERTAS_HOTMART.anual)).toBeNull();
-    expect(analizarAviso(compraAprobada(), { ahoraMs: AHORA }).resultado).toBe('sin-plan');
+  it('con un marcador sin sustituir, ese plan no se reconoce, ni siquiera el propio marcador', () => {
+    const ofertas = { mensual: '[COMPLETAR: código mensual]', anual: 'codigo-anual-de-prueba' };
+    expect(planDeOferta(ofertas.mensual, ofertas)).toBeNull();
+    expect(planDeOferta('oferta-de-prueba', ofertas)).toBeNull();
+    expect(planDeOferta(ofertas.anual, ofertas)).toBe('anual');
+    expect(
+      analizarAviso(compraAprobada({ oferta: ofertas.mensual }), {
+        ahoraMs: AHORA,
+        ofertas,
+      }).resultado,
+    ).toBe('sin-plan');
+  });
+
+  it('los códigos reales de OFERTAS_HOTMART reconocen cada plan', () => {
+    expect(OFERTAS_HOTMART.mensual).toBe('m4t09e5e');
+    expect(OFERTAS_HOTMART.anual).toBe('kjicuw9n');
+    expect(planDeOferta(OFERTAS_HOTMART.mensual)).toBe('mensual');
+    expect(planDeOferta(OFERTAS_HOTMART.anual)).toBe('anual');
   });
 
   it('sin correo del comprador no hay compra ni acceso: sin-correo', () => {

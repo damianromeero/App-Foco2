@@ -19,12 +19,12 @@
  */
 
 /**
- * Códigos de oferta de Hotmart. Cada plan se reconoce por el código de su oferta. Mientras valga el marcador, ninguna
- * compra se reconoce y los avisos quedan como sin-plan. [COMPLETAR: copiar los códigos desde la pantalla de ofertas de Hotmart]
+ * Códigos de oferta de Hotmart (el valor de `off=` en el enlace de compra). Cada plan se reconoce por el código de su
+ * oferta. Si un código no coincide, la compra queda como sin-plan.
  */
 export const OFERTAS_HOTMART = {
-  mensual: '[COMPLETAR: código de oferta mensual de Hotmart]',
-  anual: '[COMPLETAR: código de oferta anual de Hotmart]',
+  mensual: 'm4t09e5e',
+  anual: 'kjicuw9n',
 } as const;
 
 export type PlanCompra = 'mensual' | 'anual';
