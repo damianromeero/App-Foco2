@@ -100,6 +100,8 @@ describe('análisis del aviso', () => {
         idTransaccion: 'TRX-DE-PRUEBA-1',
         plan: 'mensual',
         montoUsd: 5.99,
+        moneda: 'USD',
+        montoOriginal: 5.99,
         comisionUsd: 0.3,
         suscriptor: 'SUS-1',
         correo: CORREO,
@@ -280,10 +282,12 @@ describe('compra aprobada: datos que faltan o no valen', () => {
     ).toBe('rechazado');
   });
 
-  it('un precio que no viene en dólares no se guarda como compra en USD', () => {
-    expect(analizar(compraAprobada({ monto: 29.9, divisa: 'BRL' })).resultado).toBe(
-      'divisa-no-usd',
-    );
+  it('un pago en otra moneda es compra aprobada, sin importe en USD y con el importe original', () => {
+    const r = analizar(compraAprobada({ monto: 29.9, divisa: 'BRL' }));
+    expect(r.resultado).toBe('compra-aprobada');
+    if (r.resultado === 'compra-aprobada') {
+      expect(r.compra).toMatchObject({ montoUsd: null, moneda: 'BRL', montoOriginal: 29.9 });
+    }
   });
 
   it('una oferta desconocida da sin-plan, sin inventar un plan', () => {

@@ -1,4 +1,4 @@
-import { plantilla } from '../config/plantilla';
+import { correoDeSoporte } from '../config/plantilla';
 import { llamarApi, RUTA_CUENTA } from './sesion';
 import { isCloudEnabled } from './supabase';
 
@@ -23,7 +23,7 @@ export function confirmacionDeBorradoValida(texto: string): boolean {
  * Texto exacto que se muestra antes de confirmar. Explica que borrar la cuenta no cancela la suscripción de Hotmart y
  * dónde cancelarla. El correo de soporte sale de la configuración (plantilla.soporteEmail).
  */
-export function avisoDeBorradoHotmart(correoSoporte: string = plantilla.soporteEmail): string {
+export function avisoDeBorradoHotmart(correoSoporte: string = correoDeSoporte): string {
   return (
     'Eliminar tu cuenta NO cancela tu suscripción en Hotmart. Si tienes una suscripción activa, ' +
     'cancélala primero en consumer.hotmart.com (Minhas compras → tu producto → Configurar pagamento → ' +

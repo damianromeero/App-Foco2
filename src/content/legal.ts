@@ -1,4 +1,4 @@
-import { GARANTIA, plantilla } from '../config/plantilla';
+import { correoDeContacto, GARANTIA, plantilla } from '../config/plantilla';
 
 /**
  * Textos legales en BORRADOR. No son asesoramiento jurídico y deben revisarlos un abogado
@@ -46,7 +46,7 @@ export const LEGAL_DOCUMENTS: LegalDocument[] = [
       {
         heading: '1. Responsable',
         paragraphs: [
-          `Razón social: [COMPLETAR: titular]. Identificador fiscal: [COMPLETAR: identificador fiscal]. Domicilio: [COMPLETAR: domicilio]. Contacto: ${plantilla.contactoEmail}. Ley aplicable: [COMPLETAR: ley aplicable].`,
+          `Razón social: [COMPLETAR: titular]. Identificador fiscal: [COMPLETAR: identificador fiscal]. Domicilio: [COMPLETAR: domicilio]. Contacto: ${correoDeContacto}. Ley aplicable: [COMPLETAR: ley aplicable].`,
         ],
       },
       {

@@ -29,8 +29,8 @@ describe('DialogoBorrarCuenta', () => {
     abrir();
     expect(screen.getByRole('heading', { name: 'Eliminar tu cuenta' })).toBeInTheDocument();
     expect(screen.getByText(avisoDeBorradoHotmart())).toBeInTheDocument();
-    expect(screen.getByText(/escribe a soporte@appatenzo\.com\./i)).toBeInTheDocument();
-    expect(plantilla.soporteEmail).toBe('soporte@appatenzo.com');
+    const escapado = plantilla.soporteEmail.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    expect(screen.getByText(new RegExp(`escribe a ${escapado}\\.`, 'i'))).toBeInTheDocument();
   });
 
   it('el botón de eliminar queda bloqueado hasta escribir ELIMINAR', async () => {

@@ -233,6 +233,8 @@ describe('compra aprobada: crea la cuenta, la compra y el acceso', () => {
         id_hotmart: 'TRX-DE-PRUEBA-1',
         plan: 'mensual',
         monto_usd: 5.99,
+        moneda: 'USD',
+        monto_original: 5.99,
         comision_usd: 0.3,
         suscriptor: 'SUS-1',
         correo: CORREO,
@@ -381,10 +383,16 @@ describe('avisos que se registran sin cambiar compras ni accesos (responden 200)
     soloRegistrado('sin-plan');
   });
 
-  it('precio que no es en dólares: divisa-no-usd', async () => {
-    const respuesta = await banco.enviar(compraAprobada({ divisa: 'EUR' }));
-    expect(await respuesta.json()).toEqual({ ok: true, estado: 'divisa-no-usd' });
-    soloRegistrado('divisa-no-usd');
+  it('pago en otra moneda: se aplica, sin importe en USD y con la moneda guardada', async () => {
+    const respuesta = await banco.enviar(
+      compraAprobada({ transaccion: 'TRX-EUR', divisa: 'EUR', monto: 4.5 }),
+    );
+    expect(await respuesta.json()).toEqual({ ok: true, estado: 'aplicado' });
+    expect(banco.falso.filas('compras').find((c) => c.id_hotmart === 'TRX-EUR')).toMatchObject({
+      monto_usd: null,
+      moneda: 'EUR',
+      monto_original: 4.5,
+    });
   });
 
   it('compra con datos incompletos: rechazado', async () => {

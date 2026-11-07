@@ -235,6 +235,7 @@ Reglas:
 | 7     | `20261025100000_acceso_regla_hotmart.sql`    | Acceso según la regla de Hotmart: estado «mantenida» (cobro atrasado), motivo y fin de la cancelación, fecha del aviso en `accesos` y la vista `accesos_vigentes`, que es la que lee la app.                                                                                                           |
 | 8     | `20261025110000_borrar_mi_cuenta.sql`        | Función `borrar_mi_cuenta()`: la persona con sesión borra su propia cuenta. Sustituye a la función Edge `delete-account`, que usaba la clave de servicio.                                                                                                                                              |
 | 9     | `20261025120000_retencion_datos.sql`         | Retención: `retencion_config` (plazos) y `purgar_retencion()`, que borra cada noche los avisos, la medición y los contadores más viejos que su plazo, con pg_cron si está habilitada. `[VERIFICAR: plazos con tu asesor antes de vender]` `[COMPLETAR: plazos de compras y accesos, que no se purgan]` |
+| 10    | `20261104120000_monedas_hotmart.sql`         | Pagos en otras monedas: `compras.moneda` y `compras.monto_original`; `monto_usd` queda vacío si el pago no fue en USD. Va después de la 9.                                                                                                                                                             |
 
 Reglas:
 

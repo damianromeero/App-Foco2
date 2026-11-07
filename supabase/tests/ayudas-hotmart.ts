@@ -40,6 +40,8 @@ const COLUMNAS: Record<Tabla, readonly string[]> = {
     'id_hotmart',
     'plan',
     'monto_usd',
+    'moneda',
+    'monto_original',
     'comision_usd',
     'suscriptor',
     'correo',
@@ -64,7 +66,7 @@ const COLUMNAS: Record<Tabla, readonly string[]> = {
 };
 
 const OBLIGATORIAS: Record<Tabla, readonly string[]> = {
-  compras: ['id_hotmart', 'plan', 'monto_usd', 'correo', 'estado', 'fecha_aviso'],
+  compras: ['id_hotmart', 'plan', 'correo', 'estado', 'fecha_aviso'],
   suscripciones_hotmart: ['suscriptor', 'estado', 'fecha_aviso'],
   eventos_pago: ['id_evento', 'tipo', 'estado'],
   accesos: ['correo', 'estado', 'origen'],

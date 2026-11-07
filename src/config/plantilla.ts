@@ -1,3 +1,5 @@
+import { env } from './env';
+
 /**
  * PUNTO ÚNICO DE PERSONALIZACIÓN DE LA PLANTILLA.
  *
@@ -30,12 +32,12 @@ export const plantilla = {
   /**
    * Correo de contacto que ven las personas. Es el mismo que el de soporte (`VITE_SUPPORT_EMAIL` en el hosting).
    */
-  contactoEmail: 'soporte@appatenzo.com',
+  contactoEmail: 'correo@example.com',
   /**
    * Correo de soporte que aparece en el diálogo «Eliminar tu cuenta». Las personas que tienen una suscripción de Hotmart
    * lo usan para pedir ayuda al cancelarla. Recibe las respuestas de los correos de la app (reenvío a tu bandeja).
    */
-  soporteEmail: 'soporte@appatenzo.com',
+  soporteEmail: 'correo@example.com',
   /**
    * Servicios reales conectados. Todo en `false` = modo local, sin cuentas ni cobros.
    * `npm run verificar` no deja publicar mientras `supabase` o `pagos` estén en `false`.
@@ -62,3 +64,12 @@ export const MARCA_ARCHIVO = plantilla.nombre
   .toLowerCase()
   .replace(/[^a-z0-9]+/g, '-')
   .replace(/^-|-$/g, '');
+
+/**
+ * Correo de soporte real: el de VITE_SUPPORT_EMAIL (hosting). Sin esa variable, el ejemplo de arriba. Así el correo real no
+ * vive en el repositorio.
+ */
+export const correoDeSoporte: string = env.supportEmail ?? plantilla.soporteEmail;
+
+/** Correo de contacto que se muestra a las personas: el mismo que el de soporte. */
+export const correoDeContacto: string = env.supportEmail ?? plantilla.contactoEmail;

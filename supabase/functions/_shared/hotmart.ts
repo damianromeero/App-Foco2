@@ -140,7 +140,12 @@ export type EstadoEvento = (typeof ESTADOS_EVENTO)[number];
 export interface CompraAprobada {
   idTransaccion: string;
   plan: PlanCompra;
-  montoUsd: number;
+  /** Importe en dólares, solo si el pago fue en USD. Con otra moneda queda null: el importe original se guarda aparte. */
+  montoUsd: number | null;
+  /** Moneda en la que pagó el comprador (código ISO de 3 letras, p. ej. USD o BRL). */
+  moneda: string;
+  /** Importe pagado en su moneda original. */
+  montoOriginal: number;
   /** Comisión del productor en USD, si el aviso la trae. Sin ella, la base guarda null. */
   comisionUsd?: number;
   /** Identificador de la suscripción, si la compra es parte de una. [VERIFICAR: data.subscription.subscriber.code] */
@@ -167,7 +172,6 @@ interface ConFecha extends Base {
  *  - registrado: tipo o estado conocido sin efecto en el acceso. Se guarda y responde 200.
  *  - rechazado: compra con datos incompletos. Se guarda y responde 200.
  *  - sin-plan: la oferta no está en OFERTAS_HOTMART. Se guarda y responde 200.
- *  - divisa-no-usd: el precio no viene en dólares. Se guarda y responde 200.
  *  - sin-correo: compra aprobada válida pero sin correo del comprador. No crea compra ni acceso. Responde 200.
  *  - compra-aprobada: se guarda la compra (una renovación también, con su propia transacción).
  *  - compra-estado: mantenida, reembolsada o cancelada de una compra (solo hace falta su transacción).
@@ -394,7 +398,11 @@ export function analizarAviso(cuerpo: unknown, contexto: ContextoAnalisis): Clas
   if (!codigoOferta || !importeValido(monto) || typeof divisa !== 'string') {
     return { resultado: 'rechazado', id, evento: etiqueta, fecha };
   }
-  if (divisa !== 'USD') return { resultado: 'divisa-no-usd', id, evento: etiqueta, fecha };
+  // Cualquier moneda vale: el acceso depende de la oferta y del estado, no de la moneda. Solo se guarda el importe en
+  // USD cuando el pago fue en dólares; en otra moneda se guarda el importe original tal cual.
+  if (!/^[A-Z]{3}$/.test(divisa.toUpperCase()))
+    return { resultado: 'rechazado', id, evento: etiqueta, fecha };
+  const moneda = divisa.toUpperCase();
 
   const plan = planDeOferta(codigoOferta, ofertas);
   if (!plan) return { resultado: 'sin-plan', id, evento: etiqueta, fecha };
@@ -413,7 +421,9 @@ export function analizarAviso(cuerpo: unknown, contexto: ContextoAnalisis): Clas
     compra: {
       idTransaccion,
       plan,
-      montoUsd: monto,
+      montoUsd: moneda === 'USD' ? monto : null,
+      moneda,
+      montoOriginal: monto,
       correo,
       ...(comisionUsd !== undefined ? { comisionUsd } : {}),
       ...(suscriptor !== null ? { suscriptor } : {}),

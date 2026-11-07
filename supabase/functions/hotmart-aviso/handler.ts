@@ -420,6 +420,8 @@ async function aplicarCompraAprobada(
         id_hotmart: compra.idTransaccion,
         plan: compra.plan,
         monto_usd: compra.montoUsd,
+        moneda: compra.moneda,
+        monto_original: compra.montoOriginal,
         ...(compra.comisionUsd !== undefined ? { comision_usd: compra.comisionUsd } : {}),
         ...(compra.suscriptor !== undefined ? { suscriptor: compra.suscriptor } : {}),
         correo: compra.correo,
